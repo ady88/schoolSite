@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+	<div th:replace="fragments/navigation :: navigation"></div>
+	<form th:action="@{/admin/general}" th:object="${siteModel}"
+		method="post">
+		<div class="row  g-0 m-4">
+			<p th:if="${message}" th:text="${message}"
+				class="text-center col-sm-4 gx-4 offset-sm-4"
+				th:classappend="${'alert ' + alertClass}"></p>
+		</div>
+		<div class="row mb-3 mt-4 g-0 m-4">
+			<label for="inputName"
+				class="col-sm-1 gx-4 offset-sm-4 col-form-label">Nume site</label>
+			<div class="col-sm-3 g-0">
+				<input type="text" class="form-control"
+					th:field="*{generalSiteModel.name}" id="inputName"></input>
+			</div>
+		</div>
+		<div class="row mb-3 g-0 m-4">
+			<label for="inputAdress"
+				class="col-sm-1 gx-4 offset-sm-4 col-form-label">Adresa</label>
+			<div class="col-sm-3">
+				<input type="text" id="inputAdress"
+					th:field="*{generalSiteModel.adress}" class="form-control"></input>
+			</div>
+		</div>
+		<div class="row mb-3 g-0 m-4">
+			<label for="inputPhone"
+				class="col-sm-1 gx-4 offset-sm-4 col-form-label">Telefon</label>
+			<div class="col-sm-3">
+				<input type="text" id="inputPhone"
+					th:field="*{generalSiteModel.phone}" class="form-control"></input>
+			</div>
+		</div>
+		<div class="row mb-3 g-0 m-4">
+			<label for="inputEmail"
+				class="col-sm-1 gx-4 offset-sm-4 col-form-label">Email</label>
+			<div class="col-sm-3">
+				<input type="text" id="inputEmail"
+					th:field="*{generalSiteModel.email}" class="form-control"></input>
+			</div>
+		</div>
+		<div class="row mb-3 g-0 m-4">
+			<label for="inputMotto"
+				class="col-sm-1 offset-sm-4 gx-4 col-form-label">Motto</label>
+			<div class="col-sm-3">
+				<input type="text" id="inputMotto"
+					th:field="*{generalSiteModel.motto}" class="form-control"></input>
+			</div>
+		</div>
+		<div class="row mb-3 g-0">
+			<div class="col-sm-5 offset-sm-4 col-form-label accordion"
+				id="accordionPages">
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="flush-pageOne">
+						<button class="accordion-button collapsed" type="button"
+							data-bs-toggle="collapse" data-bs-target="#flush-collapsePageOne"
+							aria-expanded="false" aria-controls="flush-pageOne">
+							Pagina #1</button>
+					</h2>
+					<div id="flush-collapsePageOne" class="accordion-collapse collapse"
+						aria-labelledby="flush-pageOne" data-bs-parent="#accordionPages">
+						<div class="accordion-body">
+							<input type="hidden" th:field="*{pageSiteData[0].info}"></input>
+							<div class="row mb-3">
+								<label for="inputFirstPageName" class="col-sm-5  col-form-label">Nume
+									Pagina</label>
+								<div class="col-sm-7">
+									<input type="text" id="inputFirstPageName"
+										th:field="*{pageSiteData[0].name}" class="form-control"></input>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputFirstPageFeature1"
+									class="col-sm-5  col-form-label">Primul feature</label>
+								<div class="col-sm-7">
+									<select  autocomplete="off" class="form-control" id="inputFirstPageFeature1"
+										th:field="*{pageSiteData[0].feature1}">
+										<option th:each="option : ${features}" th:value="${option}"
+											th:text="${option}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputFirstPageFeature2"
+									class="col-sm-5  col-form-label">Al doilea feature</label>
+								<div class="col-sm-7">
+									<select autocomplete="off"  class="form-control" id="inputFirstPageFeature2"
+										th:field="*{pageSiteData[0].feature2}">
+										<option th:each="option : ${features}" th:value="${option}"
+											th:text="${option}"></option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="flush-pageTwo">
+						<button class="accordion-button collapsed" type="button"
+							data-bs-toggle="collapse" data-bs-target="#flush-collapsePageTwo"
+							aria-expanded="false" aria-controls="flush-pageTwo">
+							Pagina #2</button>
+					</h2>
+					<div id="flush-collapsePageTwo" class="accordion-collapse collapse"
+						aria-labelledby="flush-pageTwo" data-bs-parent="#accordionPages">
+						<div class="accordion-body">
+						<input type="hidden" th:field="*{pageSiteData[1].info}"></input>
+							<div class="row mb-3">
+								<label for="inputSecondPageName"
+									class="col-sm-5  col-form-label">Nume Pagina</label>
+								<div class="col-sm-7">
+									<input type="text" id="inputSecondPageName"
+										th:field="*{pageSiteData[1].name}" class="form-control"></input>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputSecondPageFeature1"
+									class="col-sm-5  col-form-label">Primul feature</label>
+								<div class="col-sm-7">
+									<select autocomplete="off"  class="form-control" id="inputSecondPageFeature1"
+										th:field="*{pageSiteData[1].feature1}">
+										<option th:each="option : ${features}" th:value="${option}"
+											th:text="${option}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputSecondPageFeature2"
+									class="col-sm-5  col-form-label">Al doilea feature</label>
+								<div class="col-sm-7">
+									<select autocomplete="off" class="form-control" id="inputSecondPageFeature2"
+										th:field="*{pageSiteData[1].feature2}">
+										<option th:each="option : ${features}" th:value="${option}"
+											th:text="${option}"></option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="flush-pageThird">
+						<button class="accordion-button collapsed" type="button"
+							data-bs-toggle="collapse"
+							data-bs-target="#flush-collapsePageThird" aria-expanded="false"
+							aria-controls="flush-pageThird">Pagina #3</button>
+					</h2>
+					<div id="flush-collapsePageThird"
+						class="accordion-collapse collapse"
+						aria-labelledby="flush-pageThird" data-bs-parent="#accordionPages">
+						<div class="accordion-body">
+						<input type="hidden" th:field="*{pageSiteData[2].info}"></input>
+							<div class="row mb-3">
+								<label for="inputThirdPageName" class="col-sm-5  col-form-label">Nume
+									Pagina</label>
+								<div class="col-sm-7">
+									<input type="text" id="inputThirdPageName"
+										th:field="*{pageSiteData[2].name}" class="form-control"></input>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputThirdPageFeature1"
+									class="col-sm-5  col-form-label">Primul feature</label>
+								<div class="col-sm-7">
+									<select autocomplete="off"  class="form-control" id="inputThirdPageFeature1"
+										th:field="*{pageSiteData[2].feature1}">
+										<option th:each="option : ${features}" th:value="${option}"
+											th:text="${option}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputThirdPageFeature2"
+									class="col-sm-5  col-form-label">Al doilea feature</label>
+								<div class="col-sm-7">
+									<select autocomplete="off"  class="form-control" id="inputThirdPageFeature2"
+										th:field="*{pageSiteData[2].feature2}">
+										<option th:each="option : ${features}" th:value="${option}"
+											th:text="${option}"></option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="accordion-item">
+					<h2 class="accordion-header" id="flush-pageForth">
+						<button class="accordion-button collapsed" type="button"
+							data-bs-toggle="collapse"
+							data-bs-target="#flush-collapsePageForth" aria-expanded="false"
+							aria-controls="flush-pageForth">Pagina #4</button>
+					</h2>
+					<div id="flush-collapsePageForth"
+						class="accordion-collapse collapse"
+						aria-labelledby="flush-pageForth" data-bs-parent="#accordionPages">
+						<div class="accordion-body">
+						<input type="hidden" th:field="*{pageSiteData[3].info}"></input>
+							<div class="row mb-3">
+								<label for="inputForthPageName" class="col-sm-5  col-form-label">Nume
+									Pagina</label>
+								<div class="col-sm-7">
+									<input type="text" id="inputForthPageName"
+										th:field="*{pageSiteData[3].name}" class="form-control"></input>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputForthPageFeature1"
+									class="col-sm-5  col-form-label">Primul feature</label>
+								<div class="col-sm-7">
+									<select autocomplete="off"  class="form-control" id="inputForthPageFeature1"
+										th:field="*{pageSiteData[3].feature1}">
+										<option th:each="option : ${features}" th:value="${option}"
+											th:text="${option}"></option>
+									</select>
+								</div>
+							</div>
+							<div class="row mb-3">
+								<label for="inputForthPageFeature2"
+									class="col-sm-5  col-form-label">Al doilea feature</label>
+								<div class="col-sm-7">
+									<select autocomplete="off"  class="form-control" id="inputForthPageFeature2"
+										th:field="*{pageSiteData[3].feature2}">
+										<option th:each="option : ${features}" th:value="${option}"
+											th:text="${option}"></option>
+									</select>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="row m-4">
+			<button type="submit" class="col-sm-1 btn btn-primary offset-sm-7">Salvare</button>
+		</div>
+	</form>
+	<th:block th:replace="fragments/footer :: footer"></th:block>
+</body>
+</html>

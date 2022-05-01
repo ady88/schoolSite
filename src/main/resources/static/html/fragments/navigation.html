@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<nav th:fragment="navigation"
+	class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<div class="container-fluid">
+		<a class="navbar-brand" href="#">Admin</a>
+
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link"
+					th:classappend="${#httpServletRequest.getRequestURI() == '/admin/general' ? 'active':''}" href="/admin/general">General</a></li>
+				<li class="nav-item"><a class="nav-link"
+					th:classappend="${#httpServletRequest.getRequestURI() == '/admin/news' ? 'active':''}"
+					href="/admin/news">Anunturi</a></li>
+				<li class="nav-item"><a class="nav-link" id="images" href="#">Imagini</a></li>
+				<li class="nav-item"><a class="nav-link" id="resources"
+					href="#">Resurse</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>
+</html>
