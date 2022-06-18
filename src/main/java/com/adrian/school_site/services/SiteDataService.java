@@ -1,22 +1,30 @@
 package com.adrian.school_site.services;
 
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.adrian.school_site.entity.GeneralData;
+import com.adrian.school_site.entity.NewsData;
 import com.adrian.school_site.entity.PageData;
-import com.adrian.school_site.model.FeatureType;
+import com.adrian.school_site.model.CodeText;
 import com.adrian.school_site.model.GeneralSiteModel;
+import com.adrian.school_site.model.NewsSiteData;
 import com.adrian.school_site.model.Page;
 import com.adrian.school_site.model.PageSiteData;
 import com.adrian.school_site.model.SiteDataModel;
 import com.adrian.school_site.repositories.GeneralSiteDataRepository;
+import com.adrian.school_site.repositories.NewsDataRepository;
 import com.adrian.school_site.repositories.PageDataRepository;
+import com.adrian.school_site.utils.Constants;
 
 /**
  * Service used for handling site data models.
@@ -31,6 +39,9 @@ public class SiteDataService {
 
 	@Autowired
 	private PageDataRepository pageDataRepository;
+
+	@Autowired
+	private NewsDataRepository newsDataRepository;
 
 	/**
 	 * Gets the general data of the site.
@@ -57,6 +68,28 @@ public class SiteDataService {
 			result.add(siteData);
 		}
 		result.sort(Comparator.comparing(PageSiteData::getInfo));
+		return result;
+	}
+
+	public List<NewsSiteData> getAllNewsData() {
+		Iterable<NewsData> repositoryData = newsDataRepository.findAll();
+		List<NewsSiteData> result = new ArrayList<>();
+		for (NewsData page : repositoryData) {
+			NewsSiteData siteData = convertFromEntity(page);
+			result.add(siteData);
+		}
+		result.sort(Comparator.comparing(NewsSiteData::getDate));
+		return result;
+	}
+	
+	public NewsSiteData getNewsDataByTitle(final String title) {
+		Optional<NewsData> newsData = newsDataRepository.findByTitle(title);
+		NewsSiteData result = new NewsSiteData();
+		
+		if (newsData.isPresent()) {
+			result = convertFromEntity(newsData.get());
+		}
+		
 		return result;
 	}
 
@@ -122,6 +155,56 @@ public class SiteDataService {
 			pageDataRepository.saveAll(pageResults);
 
 		}
+	}
+
+	/**
+	 * Saves the form data from the admin page to the database.
+	 * 
+	 * @param model session data to be saved
+	 */
+	public CodeText saveNewsSiteData(SiteDataModel formSiteModel) {
+		NewsSiteData data = formSiteModel.getCurrentNews();
+		NewsData dataDb = convertFromEntity(data);
+		
+		if (StringUtils.isEmpty( dataDb.getTitle())) {
+			return new CodeText(2, "'Title' cannot be empty.");
+		}
+		
+		try {
+			newsDataRepository.save(dataDb);
+		} catch (Exception e) {
+			if (e.getCause() instanceof ConstraintViolationException t) {
+				System.out.println(t.getCause().getMessage());
+				return new CodeText(1, t.getCause().getMessage());
+			}
+
+		}
+
+		return new CodeText(0, Constants.SAVE_SUCCESS_MESSAGE);
+	}
+
+	private NewsData convertFromEntity(NewsSiteData data) {
+		NewsData newsDb = new NewsData();
+		newsDb.setDate(data.getDate());
+		newsDb.setTitle(data.getTitle());
+		newsDb.setDescription(data.getDescription());
+		newsDb.setLinklabel(data.getLinkLabel());
+		newsDb.setLinkurl(data.getLinkUrl());
+		newsDb.setPageId(data.getInfo().getId());
+		newsDb.setImage(Base64.getDecoder().decode(data.getImage()));
+		return newsDb;
+	}
+
+	private NewsSiteData convertFromEntity(NewsData data) {
+		NewsSiteData news = new NewsSiteData();
+		news.setDate(data.getDate());
+		news.setTitle(data.getTitle());
+		news.setDescription(data.getDescription());
+		news.setLinkLabel(data.getLinklabel());
+		news.setLinkUrl(data.getLinkurl());
+		news.setInfo(Page.fromInt(data.getPageId()).get());
+		news.setImage(Base64.getEncoder().encodeToString(data.getImage()));
+		return news;
 	}
 
 	private GeneralSiteModel convertFromEntity(GeneralData entity) {

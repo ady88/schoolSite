@@ -1,0 +1,5 @@
+.fixed-width-title {
+  width: 400px;
+  display: inline-block;
+  text-align: center;
+}

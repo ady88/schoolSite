@@ -15,9 +15,9 @@ public class SiteDataModel implements Serializable {
 	private static final long serialVersionUID = 929114650404323009L;
 	private GeneralSiteModel generalSiteModel;
 	private List<PageSiteData> pageSiteData = new ArrayList<>();
+	private List<NewsSiteData> newsSiteData = new ArrayList<>();
+	private NewsSiteData currentNews = new NewsSiteData();
 
-	
-	
 	public SiteDataModel() {
 	}
 
@@ -37,4 +37,20 @@ public class SiteDataModel implements Serializable {
 		this.pageSiteData = pageSiteData;
 	}
 
+
+	public List<NewsSiteData> getNewsSiteData() {
+		return newsSiteData;
+	}
+
+	public void setNewsSiteData(List<NewsSiteData> newsSiteData) {
+		this.newsSiteData = newsSiteData;
+	}
+
+	public NewsSiteData getCurrentNews() {
+		return currentNews;
+	}
+
+	public void setCurrentNews(NewsSiteData currentNews) {
+		this.currentNews = currentNews;
+	}
 }
