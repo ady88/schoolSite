@@ -70,7 +70,7 @@ public class SiteDataService {
 	 * @return general view data
 	 */
 	public GeneralSiteModel getGeneralSiteData() {
-		final GeneralData result = generalSiteDataRepository.findById(1).get();
+		final GeneralData result = generalSiteDataRepository.findById(1).orElse(new GeneralData());
 
 		return convertFromEntity(result);
 	}
@@ -187,13 +187,14 @@ public class SiteDataService {
 	 */
 	public void saveGeneralSiteData(SiteDataModel model) {
 		// get existing data
-		final GeneralData result = generalSiteDataRepository.findById(1).get();
+		final GeneralData result = generalSiteDataRepository.findById(1).orElse(new GeneralData());
 		GeneralSiteModel generalSiteModel = model.getGeneralSiteModel();
 		result.setAdress(generalSiteModel.getAdress());
 		result.setEmail(generalSiteModel.getEmail());
 		result.setMotto(generalSiteModel.getMotto());
 		result.setPhone(generalSiteModel.getPhone());
 		result.setSitename(generalSiteModel.getName());
+
 		generalSiteDataRepository.save(result);
 
 		final Iterable<PageData> pageResults = pageDataRepository.findAll();

@@ -50,13 +50,13 @@ public class ImageUploadRestController {
 
 		String decode = UriUtils.decode(image, "UTF-8");
 
-		System.out.println("ADRIAN 2222");
-
-		System.out.println(image);
-
-		System.out.println("ADRIAN 33333");
-
-		System.out.println(decode);
+//		System.out.println("ADRIAN 2222");
+//
+//		System.out.println(image);
+//
+//		System.out.println("ADRIAN 33333");
+//
+//		System.out.println(decode);
 		byte[] rez = Base64.decodeBase64(decode);
 		return rez;
 
@@ -87,13 +87,6 @@ public class ImageUploadRestController {
 
 		String decode = UriUtils.decode(image, "UTF-8");
 
-		System.out.println("ADRIAN 2222");
-
-		System.out.println(image);
-
-		System.out.println("ADRIAN 33333");
-
-		System.out.println(decode);
 		byte[] rez = Base64.decodeBase64(decode);
 		return rez;
 
@@ -122,13 +115,6 @@ public class ImageUploadRestController {
 
 		String decode = UriUtils.decode(image, "UTF-8");
 
-		System.out.println("ADRIAN 2222");
-
-		System.out.println(image);
-
-		System.out.println("ADRIAN 33333");
-
-		System.out.println(decode);
 		byte[] rez = Base64.decodeBase64(decode);
 		return rez;
 	}
@@ -156,13 +142,6 @@ public class ImageUploadRestController {
 
 		String decode = UriUtils.decode(image, "UTF-8");
 
-		System.out.println("ADRIAN 2222");
-
-		System.out.println(image);
-
-		System.out.println("ADRIAN 33333");
-
-		System.out.println(decode);
 		byte[] rez = Base64.decodeBase64(decode);
 		return rez;
 	}

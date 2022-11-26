@@ -23,3 +23,23 @@ https://preview.colorlib.com/theme/bootstrap/website-menu-12/#
  overflow:auto;
  border-bottom:1px solid var(--border-primary)
 }
+
+INSERT INTO public."general"
+(sitename, adress, phone, email, motto, id)
+VALUES('Școala Gimnazială Telești', 'Sat Telești Comuna Telești', '0253 276 452', 'scoalatelesti@yahoo.com', 'Nu e destul să știi, trebuie să și aplici, nu e destul să vrei trebuie să și faci.', 1);
+
+INSERT INTO public.page
+("name", feature1, feature2, id)
+VALUES('Prima Pagină', 'images', 'news', 1);
+INSERT INTO public.page
+("name", feature1, feature2, id)
+VALUES('Resurse Educaționale', 'docs', '-', 2);
+INSERT INTO public.page
+("name", feature1, feature2, id)
+VALUES('Personal', 'staff_table', '-', 3);
+INSERT INTO public.page
+("name", feature1, feature2, id)
+VALUES('Contact', 'contact', '-', 4);
+
+ALTER SEQUENCE page_id_seq RESTART WITH 1;
+

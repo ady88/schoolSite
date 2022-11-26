@@ -103,8 +103,6 @@ public class ImagesController {
 
 		String encodeBase64String = Base64.encodeBase64String(imageBytes);
 		new String(Base64.decodeBase64(imageBytes), StandardCharsets.UTF_8);
-		System.out.println("ADRIAN sss");
-		System.out.println(encodeBase64String);
 		formSiteModel.getCurrentImages().setImage(encodeBase64String);
 
 		CodeText status = siteService.saveImagesSiteData(formSiteModel);

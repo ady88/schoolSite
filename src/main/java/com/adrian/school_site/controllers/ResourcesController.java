@@ -102,8 +102,6 @@ public class ResourcesController {
 
 		String encodeBase64String = Base64.encodeBase64String(docBytes);
 		new String(Base64.decodeBase64(docBytes), StandardCharsets.UTF_8);
-		System.out.println("ADRIAN sss");
-		System.out.println(encodeBase64String);
 		formSiteModel.getCurrentResources().setDoc(encodeBase64String);
 
 		CodeText status = siteService.saveResourcesSiteData(formSiteModel);
