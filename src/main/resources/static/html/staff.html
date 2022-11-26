@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+	<div th:replace="fragments/navigation :: navigation"></div>
+	<form th:action="@{/admin/staff}" enctype="multipart/form-data"
+		th:object="${siteModel}" method="post">
+
+		<h3 class=" offset-sm-5 col-sm-2">Personal administrativ</h3>
+		<div th:id="staffList" th:fragment="staff-list"
+			th:object="${siteModel}">
+			<div class="row mb-2">
+				<span th:if="${deleteMessage}" th:text="${deleteMessage}"
+					class="text-center col-sm-4 gx-4 offset-sm-4 alert-danger"></span>
+			</div>
+			<ul th:each="siteData: ${siteModel.staffSiteData}"
+				class=" offset-sm-3 col-sm-4 list-group list-group-horizontal">
+				<li class="list-group-item"><span class="fixed-width-title"
+					th:text="${siteData.lastname}"></span></li>
+				<li class="list-group-item"><span class="fixed-width-title"
+					th:text="${siteData.firstname}"></span></li>
+
+				<li class="list-group-item">
+					<button type="button" class=" btn btn-primary"
+						th:data-firstname="${siteData.firstname}"
+						th:data-lastname="${siteData.lastname}"
+						th:onclick="|selectCurrentStaff(this.getAttribute('data-firstname'), this.getAttribute('data-lastname'));|">Select</button>
+				</li>
+				<li class="list-group-item">
+					<button type="button" class="btn btn-danger"
+						th:data-firstname="${siteData.firstname}"
+						th:data-lastname="${siteData.lastname}"
+						th:onclick="|removeStaff(this.getAttribute('data-firstname'), this.getAttribute('data-lastname'));|">Delete</button>
+				</li>
+			</ul>
+		</div>
+		<div id="staffPage" th:fragment="staff-page"
+			th:object="${siteModel}">
+			<div class="row  g-0 m-4">
+				<p th:if="${message}" th:text="${message}"
+					class="text-center col-sm-4 gx-4 offset-sm-4"
+					th:classappend="${'alert ' + alertClass}"></p>
+			</div>
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputStaffFirstname"
+					class="col-sm-1 gx-4 offset-sm-4 col-form-label">Prenume</label>
+				<div class="col-sm-3 g-0">
+					<input type="text" class="form-control"
+						th:field="*{currentStaff.firstname}" id="inputStaffFirstname"></input>
+				</div>
+			</div>
+			
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputStaffLastname"
+					class="col-sm-1 gx-4 offset-sm-4 col-form-label">Nume</label>
+				<div class="col-sm-3 g-0">
+					<input type="text" class="form-control"
+						th:field="*{currentStaff.lastname}" id="inputStaffLastname"></input>
+				</div>
+			</div>
+
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputStaffPage"
+					class="col-sm-1 gx-4 offset-sm-4 col-form-label">Pagina</label>
+				<div class="col-sm-3 g-0">
+					<select autocomplete="off" class="form-control"
+						id="inputStaffPage" th:field="*{currentStaff.info}">
+						<option th:each="option : ${pages}" th:value="${option}"
+							th:text="${option}"></option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputStaffOrder"
+					class="col-sm-1 gx-4 offset-sm-4 col-form-label">Ordine</label>
+				<div class="col-sm-3 g-0">
+					<input type="number" class="form-control"
+						th:field="*{currentStaff.order}" id="inputStaffOrder"></input>
+				</div>
+			</div>
+			
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputStaffUnit"
+					class="col-sm-1 gx-4 offset-sm-4 col-form-label">Nume unitate</label>
+				<div class="col-sm-3 g-0">
+					<input type="text" class="form-control"
+						th:field="*{currentStaff.unitname}" id="inputStaffUnit"></input>
+				</div>
+			</div>
+
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputStaffJob"
+					class="col-sm-1 gx-4 offset-sm-4 col-form-label">Profesie</label>
+				<div class="col-sm-3 g-0">
+					<input type="text" class="form-control"
+						th:field="*{currentStaff.jobtype}" id="inputStaffJob"></input>
+				</div>
+			</div>
+		</div>
+		<div class="row m-4">
+			<button type="submit" class="col-sm-1 btn btn-primary offset-sm-7">Salvare</button>
+		</div>
+	</form>
+	<th:block th:replace="fragments/footer :: footer"></th:block>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

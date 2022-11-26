@@ -19,19 +19,19 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.adrian.school_site.model.CodeText;
-import com.adrian.school_site.model.NewsSiteData;
+import com.adrian.school_site.model.ImagesSiteData;
 import com.adrian.school_site.model.Page;
 import com.adrian.school_site.model.SiteDataModel;
 import com.adrian.school_site.services.SiteDataService;
 
 /**
- * Controller class for the news page of the school web-application.
+ * Controller class for the images page of the school web-application.
  */
 @Controller
-public class NewsController {
+public class ImagesController {
 
 	static Integer COUNTER = 0;
-	
+
 	@Autowired
 	private SiteDataModel siteModel;
 
@@ -39,84 +39,75 @@ public class NewsController {
 	private SiteDataService siteService;
 
 	/**
-	 * Returns the admin news page {@link ModelAndView} object to be used by the MVC
-	 * framework.
+	 * Returns the admin iamge page {@link ModelAndView} object to be used by the
+	 * MVC framework.
 	 * 
-	 * @return the {@link ModelAndView} object for the news admin page
+	 * @return the {@link ModelAndView} object for the image admin page
 	 */
-	@GetMapping(path = "admin/news")
-	public ModelAndView getNewsPage() {
-		final ModelAndView viewModel = new ModelAndView("news");
-		siteModel.setCurrentNews(new NewsSiteData());
-		siteModel.setNewsSiteData(siteService.getAllNewsData());
+	@GetMapping(path = "admin/images")
+	public ModelAndView getImagePage() {
+		final ModelAndView viewModel = new ModelAndView("images");
+		siteModel.setCurrentImages(new ImagesSiteData());
+		siteModel.setImagesSiteData(siteService.getAllImagesData());
 		viewModel.addObject("siteModel", siteModel);
 		viewModel.addObject("pages", Page.values());
-		viewModel.addObject("pic", "/admin/image-news-upload/0");
+		viewModel.addObject("pic", "/admin/image-images-upload/0");
 		viewModel.addObject("deleteMessage", null);
 		return viewModel;
 	}
 
-	@GetMapping(path = "admin/news/select/{title}")
-	public String selectNewsData(@PathVariable(name = "title") final String title, Model model) {
+	@GetMapping(path = "admin/images/select/{title}")
+	public String selectImagesData(@PathVariable(name = "title") final String title, Model model) {
 		// this needs to be increased in order for the thymeleaf engine to detect that a
 		// new URL is available and display a new image
 		COUNTER++;
-		siteModel.setCurrentNews(siteService.getNewsDataByTitle(title));
+		siteModel.setCurrentImages(siteService.getImagesDataByTitle(title));
 		model.addAttribute("siteModel", siteModel);
 		model.addAttribute("pages", Page.values());
-		model.addAttribute("pic", "/admin/image-news-upload/" + COUNTER);
-		return "news :: news-page";
+		model.addAttribute("pic", "/admin/image-images-upload/" + COUNTER);
+		return "images :: images-page";
 	}
-	
-	@GetMapping(path = "admin/news/remove/{title}")
-	public String removeNewsData(@PathVariable(name = "title") final String title, Model model) {
-		CodeText resultMessage = siteService.deleteNewsSiteData(title);
-		siteModel.setNewsSiteData(siteService.getAllNewsData());
+
+	@PostMapping(path = "admin/updateMainImage")
+	public String updateImage(@RequestBody String imageData, Model model) throws UnsupportedEncodingException {
+		COUNTER++;
+
+		siteModel.getCurrentImages().setImage(imageData);
+		model.addAttribute("siteModel", siteModel);
+		model.addAttribute("pic", "/admin/image-images-upload/" + COUNTER);
+		model.addAttribute("pages", Page.values());
+		return "images :: #images_insert_image";
+	}
+
+	@GetMapping(path = "admin/images/remove/{title}")
+	public String removeImagesData(@PathVariable(name = "title") final String title, Model model) {
+		CodeText resultMessage = siteService.deleteImagesSiteData(title);
+		siteModel.setImagesSiteData(siteService.getAllImagesData());
 		model.addAttribute("siteModel", siteModel);
 		model.addAttribute("pages", Page.values());
 		model.addAttribute("deleteMessage", resultMessage.text());
-//		model.addAttribute("pic", "/admin/image-news-upload/" + COUNTER);
-//		COUNTER++;
-		return "news :: news-list";
-	}
-
-	@PostMapping(path = "admin/updateImage")
-	public String updateImage(@RequestBody String imageData, Model model) throws UnsupportedEncodingException {
-		System.out.println("ADRIAN 14");
-//		System.out.println(imageData);
-//		byte[] data = Base64.getDecoder().decode(imageData);
-//		imageData = new String(data, StandardCharsets.UTF_8);
-		
-		siteModel.getCurrentNews().setImage(imageData);
-		model.addAttribute("siteModel", siteModel);
-		model.addAttribute("pic", "/admin/image-news-upload/" + COUNTER);
-		model.addAttribute("pages", Page.values());
-		COUNTER++;
-		System.out.println(COUNTER);
-		return "news :: #news_insert_image";
+		return "images :: images-list";
 	}
 
 	/**
-	 * Submits the admin news page {@link ModelAndView} object to be used by the MVC
-	 * framework.
+	 * Submits the admin images page {@link ModelAndView} object to be used by the
+	 * MVC framework.
 	 * 
 	 * @return general page redirection text
-	 * @throws IOException 
+	 * @throws IOException
 	 */
-	@PostMapping(path = "admin/news")
+	@PostMapping(path = "admin/images")
 	public String postGeneralPage(@ModelAttribute SiteDataModel formSiteModel, @RequestParam("file") MultipartFile file,
 			Model model, RedirectAttributes redirectAttributes) throws IOException {
 		byte[] imageBytes = file.getBytes();
 
-		
-		
 		String encodeBase64String = Base64.encodeBase64String(imageBytes);
 		new String(Base64.decodeBase64(imageBytes), StandardCharsets.UTF_8);
 		System.out.println("ADRIAN sss");
 		System.out.println(encodeBase64String);
-		formSiteModel.getCurrentNews().setImage(encodeBase64String);
+		formSiteModel.getCurrentImages().setImage(encodeBase64String);
 
-		CodeText status = siteService.saveNewsSiteData(formSiteModel);
+		CodeText status = siteService.saveImagesSiteData(formSiteModel);
 		model.addAttribute("siteModel", formSiteModel);
 		redirectAttributes.addFlashAttribute("message", status.text());
 
@@ -125,6 +116,6 @@ public class NewsController {
 		} else {
 			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
 		}
-		return "redirect:news";
+		return "redirect:images";
 	}
 }

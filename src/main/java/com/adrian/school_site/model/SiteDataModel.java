@@ -16,7 +16,13 @@ public class SiteDataModel implements Serializable {
 	private GeneralSiteModel generalSiteModel;
 	private List<PageSiteData> pageSiteData = new ArrayList<>();
 	private List<NewsSiteData> newsSiteData = new ArrayList<>();
+	private List<ImagesSiteData> imagesSiteData = new ArrayList<>();
+	private List<ResourcesSiteData> resourcesSiteData = new ArrayList<>();
+	private List<StaffSiteData> staffSiteData = new ArrayList<>();
 	private NewsSiteData currentNews = new NewsSiteData();
+	private ImagesSiteData currentImages = new ImagesSiteData();
+	private ResourcesSiteData currentResources = new ResourcesSiteData();
+	private StaffSiteData currentStaff = new StaffSiteData();
 
 	public SiteDataModel() {
 	}
@@ -37,7 +43,6 @@ public class SiteDataModel implements Serializable {
 		this.pageSiteData = pageSiteData;
 	}
 
-
 	public List<NewsSiteData> getNewsSiteData() {
 		return newsSiteData;
 	}
@@ -52,5 +57,53 @@ public class SiteDataModel implements Serializable {
 
 	public void setCurrentNews(NewsSiteData currentNews) {
 		this.currentNews = currentNews;
+	}
+
+	public List<ImagesSiteData> getImagesSiteData() {
+		return imagesSiteData;
+	}
+
+	public void setImagesSiteData(List<ImagesSiteData> imagesSiteData) {
+		this.imagesSiteData = imagesSiteData;
+	}
+
+	public ImagesSiteData getCurrentImages() {
+		return currentImages;
+	}
+
+	public void setCurrentImages(ImagesSiteData currentImages) {
+		this.currentImages = currentImages;
+	}
+
+	public List<ResourcesSiteData> getResourcesSiteData() {
+		return resourcesSiteData;
+	}
+
+	public void setResourcesSiteData(List<ResourcesSiteData> resourcesSiteData) {
+		this.resourcesSiteData = resourcesSiteData;
+	}
+
+	public ResourcesSiteData getCurrentResources() {
+		return currentResources;
+	}
+
+	public void setCurrentResources(ResourcesSiteData currentResources) {
+		this.currentResources = currentResources;
+	}
+
+	public List<StaffSiteData> getStaffSiteData() {
+		return staffSiteData;
+	}
+
+	public void setStaffSiteData(List<StaffSiteData> staffSiteData) {
+		this.staffSiteData = staffSiteData;
+	}
+
+	public StaffSiteData getCurrentStaff() {
+		return currentStaff;
+	}
+
+	public void setCurrentStaff(StaffSiteData currentStaff) {
+		this.currentStaff = currentStaff;
 	}
 }

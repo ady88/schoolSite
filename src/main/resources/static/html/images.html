@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+	<div th:replace="fragments/navigation :: navigation"></div>
+	<form th:action="@{/admin/images}" enctype="multipart/form-data" th:object="${siteModel}" method="post">
+
+		<h3 class=" offset-sm-5 col-sm-2">Stiri principale</h3>
+		<div th:id="imagesList" th:fragment="images-list" th:object="${siteModel}">
+			<div class="row mb-2">
+				<span th:if="${deleteMessage}" th:text="${deleteMessage}" class="text-center col-sm-4 gx-4 offset-sm-4 alert-danger"></span>
+			</div>
+			<ul th:each="siteData: ${siteModel.imagesSiteData}" class=" offset-sm-4 col-sm-4 list-group list-group-horizontal">
+				<li class="list-group-item">
+					<span class="fixed-width-title" th:text="${siteData.title}"></span>
+				</li>
+
+				<li class="list-group-item">
+					<button type="button" class=" btn btn-primary" th:data-title="${siteData.title}"
+						th:onclick="|selectCurrentImages(this.getAttribute('data-title'));|">Select</button>
+				</li>
+				<li class="list-group-item">
+					<button type="button" class="btn btn-danger" th:data-title="${siteData.title}"
+						th:onclick="|removeImages(this.getAttribute('data-title'));|">Delete</button>
+				</li>
+			</ul>
+		</div>
+		<div id="imagesPage" th:fragment="images-page" th:object="${siteModel}">
+			<div class="row  g-0 m-4">
+				<p th:if="${message}" th:text="${message}" class="text-center col-sm-4 gx-4 offset-sm-4"
+					th:classappend="${'alert ' + alertClass}"></p>
+			</div>
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputImagesTitle" class="col-sm-1 gx-4 offset-sm-4 col-form-label">Nume imagine</label>
+				<div class="col-sm-3 g-0">
+					<input type="text" class="form-control" th:field="*{currentImages.title}" id="inputImagesTitle"></input>
+				</div>
+			</div>
+
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputNewsImagesTitle" class="col-sm-1 gx-4 offset-sm-4 col-form-label">Titlu stire</label>
+				<div class="col-sm-3 g-0">
+					<input type="text" class="form-control" th:field="*{currentImages.pageTitle}" id="inputNewsImagesTitle"></input>
+				</div>
+			</div>
+
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputImagesPage" class="col-sm-1 gx-4 offset-sm-4 col-form-label">Pagina</label>
+				<div class="col-sm-3 g-0">
+					<select autocomplete="off" class="form-control" id="inputImagesPage" th:field="*{currentImages.info}">
+						<option th:each="option : ${pages}" th:value="${option}" th:text="${option}"></option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputImagesOrder" class="col-sm-1 gx-4 offset-sm-4 col-form-label">Ordine</label>
+				<div class="col-sm-3 g-0">
+					<input type="number" class="form-control" th:field="*{currentImages.order}" id="inputImagesOrder"></input>
+				</div>
+			</div>
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<img th:unless="${#strings.isEmpty(pic)}" id="images_insert_image" class="col-sm-4 gx-4 offset-sm-4"
+					th:src="@{${pic}}" /> <span th:if="${#strings.isEmpty(pic)}" id="images_insert_image_text"
+					class="col-sm-4 gx-4 offset-sm-4">NO PICTURE</span>
+			</div>
+			<div class="row mb-3 g-0 m-4">
+				<input type="file" name="file" id="images_upload_control" style="width: 35%"
+					th:attr="onchange=|uploadImages(event)|" class="col-sm-1 gx-4 offset-sm-4 form-control"></input>
+			</div>
+
+			<div class="row mb-3 g-0 m-4">
+				<label for="inputImagesDescription" class="col-sm-1 gx-4 offset-sm-4 col-form-label">Text</label>
+				<div class="col-sm-3">
+					<textarea id="inputImagesDescription" th:field="*{currentImages.description}" class="form-control"></textarea>
+				</div>
+			</div>
+		</div>
+		<div class="row m-4">
+			<button type="submit" class="col-sm-1 btn btn-primary offset-sm-7">Salvare</button>
+		</div>
+	</form>
+	<th:block th:replace="fragments/footer :: footer"></th:block>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+</body>
+</html>

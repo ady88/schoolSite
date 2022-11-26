@@ -1,7 +1,5 @@
 package com.adrian.school_site.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,8 +9,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "news_feature", uniqueConstraints = { @UniqueConstraint(columnNames = { "title" }) })
-public class NewsData {
+@Table(name = "images_feature", uniqueConstraints = { @UniqueConstraint(columnNames = { "title" }) })
+public class ImagesData {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
@@ -20,9 +18,8 @@ public class NewsData {
 	private String description;
 	@Column(name = "pageid")
 	private int pageId;
-	private Date date;
-	private String linklabel;
-	private String linkurl;
+	@Column(name = "orderimage")
+	private int order;
 	private byte[] image;
 
 	@Column(name = "pagetitle")
@@ -60,28 +57,12 @@ public class NewsData {
 		this.pageId = pageId;
 	}
 
-	public Date getDate() {
-		return date;
+	public int getOrder() {
+		return order;
 	}
 
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public String getLinklabel() {
-		return linklabel;
-	}
-
-	public void setLinklabel(String linklabel) {
-		this.linklabel = linklabel;
-	}
-
-	public String getLinkurl() {
-		return linkurl;
-	}
-
-	public void setLinkurl(String linkurl) {
-		this.linkurl = linkurl;
+	public void setOrder(int order) {
+		this.order = order;
 	}
 
 	public byte[] getImage() {

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+	<th:block th:replace="fragments/footer :: footer"></th:block>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+
+	<div th:replace="fragments/top :: top"></div>
+	<div class="container my-image-container">
+		<div id="img-description-area">
+			<h5 id="imgDescriptionTitle" class="img-text pt-4" style="text-align: center"></h5>
+			<hr style="margin-top: -1em;" />
+			<p id="imgDescription" class="img-text"></p>
+		</div>
+		<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel"
+			data-th-images="${siteModel.imagesSiteData}">
+			<div class="carousel-inner">
+				<div th:each="image,iStat: ${siteModel.imagesSiteData}" class=" img-wrapper carousel-item"
+					th:classappend="${iStat.index == 0 ? 'active':''}" data-bs-interval="7000">
+					<img id="homeCurrentImage" th:src="@{'/image/' + ${image.title}}" class="d-block my-img-dimmensions">
+				</div>
+			</div>
+			<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+				<span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+				<span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="visually-hidden">Next</span>
+			</button>
+		</div>
+	</div>
+	<div class="container">
+		<div class="pt-4 row">
+			<div th:each="news,iStat: ${siteModel.newsSiteData}" class="col-sm-3">
+				<div class="card newsCard p-4">
+					<div class="card-header newsHeader">
+						<h5 th:text="${news.pageTitle}" class="card-title"></h5>
+					</div>
+					<img th:src="@{'/newsImage/' + ${news.title}}"  class="card-img-top" alt="...">
+					<div class="card-body">
+						<p th:text="${news.description}" class="card-text"></p>
+						<a th:text="${news.linkLabel}" th:href="${news.linkUrl}"></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript" th:src="@{/js/home.js}"></script>
+</body>
+</html>

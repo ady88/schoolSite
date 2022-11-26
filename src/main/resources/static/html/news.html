@@ -3,20 +3,34 @@
 <head th:replace="fragments/header :: header"></head>
 <body>
 	<div th:replace="fragments/navigation :: navigation"></div>
-	<form th:action="@{/admin/news}" enctype="multipart/form-data" th:object="${siteModel}" method="post">
-		
+	<form th:action="@{/admin/news}" enctype="multipart/form-data"
+		th:object="${siteModel}" method="post">
+
 		<h3 class=" offset-sm-6 col-sm-1">Stiri</h3>
-		<ul th:each="siteData: ${siteModel.newsSiteData}" class=" offset-sm-4 col-sm-4 list-group list-group-horizontal">
-  			<li class="list-group-item">
-  			 <span class="fixed-width-title"  th:text="${siteData.title}"></span>	
-  			</li>
-  			<li class="list-group-item" th:text="${#dates.format(siteData.date, 'dd/MM/yyyy')}"></li>
-  			
-  			<li class="list-group-item">
-			<button type="button" class=" btn btn-primary" th:data-title="${siteData.title}" th:onclick="|selectCurrentNews(this.getAttribute('data-title'));|">Select</button>
-			</li>
-		</ul>
-		
+		<div th:id="newsList" th:fragment="news-list" th:object="${siteModel}">
+			<div class="row mb-2">
+				<span th:if="${deleteMessage}" th:text="${deleteMessage}"
+					class="text-center col-sm-4 gx-4 offset-sm-4 alert-danger"></span>
+			</div>
+			<ul  th:each="siteData: ${siteModel.newsSiteData}"
+				class=" offset-sm-4 col-sm-4 list-group list-group-horizontal">
+				<li class="list-group-item"><span class="fixed-width-title"
+					th:text="${siteData.title}"></span></li>
+				<li class="list-group-item"
+					th:text="${#dates.format(siteData.date, 'dd/MM/yyyy')}"></li>
+
+				<li class="list-group-item">
+					<button type="button" class=" btn btn-primary"
+						th:data-title="${siteData.title}"
+						th:onclick="|selectCurrentNews(this.getAttribute('data-title'));|">Select</button>
+				</li>
+				<li class="list-group-item">
+					<button type="button" class="btn btn-danger"
+						th:data-title="${siteData.title}"
+						th:onclick="|removeNews(this.getAttribute('data-title'));|">Delete</button>
+				</li>
+			</ul>
+		</div>
 		<div id="newsPage" th:fragment="news-page" th:object="${siteModel}">
 			<div class="row  g-0 m-4">
 				<p th:if="${message}" th:text="${message}"
@@ -29,6 +43,12 @@
 				<div class="col-sm-3 g-0">
 					<input type="text" class="form-control"
 						th:field="*{currentNews.title}" id="inputNewsTitle"></input>
+				</div>
+			</div>
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputNewsImagesTitle" class="col-sm-1 gx-4 offset-sm-4 col-form-label">Titlu stire</label>
+				<div class="col-sm-3 g-0">
+					<input type="text" class="form-control" th:field="*{currentNews.pageTitle}" id="inputNewsImagesTitle"></input>
 				</div>
 			</div>
 			<div class="row mb-3 mt-4 g-0 m-4">
@@ -47,19 +67,19 @@
 						th:field="*{currentNews.linkUrl}" id="inputNewsLinkUrl"></input>
 				</div>
 			</div>
-	
+
 			<div class="row mb-3 mt-4 g-0 m-4">
 				<label for="inputNewsPage"
 					class="col-sm-1 gx-4 offset-sm-4 col-form-label">Pagina</label>
 				<div class="col-sm-3 g-0">
-					<select autocomplete="off" class="form-control"
-						id="inputNewsPage" th:field="*{currentNews.info}">
+					<select autocomplete="off" class="form-control" id="inputNewsPage"
+						th:field="*{currentNews.info}">
 						<option th:each="option : ${pages}" th:value="${option}"
 							th:text="${option}"></option>
 					</select>
 				</div>
 			</div>
-	
+
 			<div class="row mb-3 mt-4 g-0 m-4">
 				<label for="inputNewsDate"
 					class="col-sm-1 gx-4 offset-sm-4 col-form-label">Dată</label>
@@ -69,12 +89,16 @@
 				</div>
 			</div>
 			<div class="row mb-3 mt-4 g-0 m-4">
-				<img id="news_insert_image" class="col-sm-4 gx-4 offset-sm-4"   th:src="@{${pic}}"/>
+				<img th:unless="${#strings.isEmpty(pic)}" id="news_insert_image" class="col-sm-4 gx-4 offset-sm-4"
+					th:src="@{${pic}}" />
+				<span th:if="${#strings.isEmpty(pic)}" id="news_insert_image_text" class="col-sm-4 gx-4 offset-sm-4">NO PICTURE</span>	
 			</div>
 			<div class="row mb-3 g-0 m-4">
-				<input type="file" name="file" id="news_upload_control" th:attr="onchange=|upload(event)|" class="col-sm-1 gx-4 offset-sm-4 form-control-file"></input>
-	        </div>
-			
+				<input type="file" name="file" id="news_upload_control" style="width: 35%"
+					th:attr="onchange=|upload(event)|"
+					class="col-sm-1 gx-4 offset-sm-4 form-control"></input>
+			</div>
+
 			<div class="row mb-3 g-0 m-4">
 				<label for="inputNewsDescription"
 					class="col-sm-1 gx-4 offset-sm-4 col-form-label">Text</label>

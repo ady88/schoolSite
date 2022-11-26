@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+	<th:block th:replace="fragments/footer :: footer"></th:block>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+
+	<div th:replace="fragments/top :: top"></div>
+	<div class="container">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Nume</th>
+					<th scope="col">Prenume</th>
+					<th scope="col">Post</th>
+					<th scope="col">Unit</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="staff,iStat: ${siteModel.staffSiteData}" th:classappend ="${iStat.index} % 2 == 1 ? 'newsCard'">
+					<td>
+						<span th:text="${staff.lastname}"></span>
+					</td>
+					<td>
+						<span th:text="${staff.firstname}"></span>
+					</td>
+					<td>
+						<span th:text="${staff.jobtype}"></span>
+					</td>
+					<td>
+						<span th:text="${staff.unitname}"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

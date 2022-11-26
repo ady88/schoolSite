@@ -7,23 +7,35 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import javax.transaction.Transactional;
+
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import com.adrian.school_site.entity.GeneralData;
+import com.adrian.school_site.entity.ImagesData;
 import com.adrian.school_site.entity.NewsData;
 import com.adrian.school_site.entity.PageData;
+import com.adrian.school_site.entity.ResourcesData;
+import com.adrian.school_site.entity.StaffData;
 import com.adrian.school_site.model.CodeText;
 import com.adrian.school_site.model.GeneralSiteModel;
+import com.adrian.school_site.model.ImagesSiteData;
 import com.adrian.school_site.model.NewsSiteData;
 import com.adrian.school_site.model.Page;
 import com.adrian.school_site.model.PageSiteData;
+import com.adrian.school_site.model.ResourcesSiteData;
 import com.adrian.school_site.model.SiteDataModel;
+import com.adrian.school_site.model.StaffSiteData;
 import com.adrian.school_site.repositories.GeneralSiteDataRepository;
+import com.adrian.school_site.repositories.ImagesDataRepository;
 import com.adrian.school_site.repositories.NewsDataRepository;
 import com.adrian.school_site.repositories.PageDataRepository;
+import com.adrian.school_site.repositories.ResourcesDataRepository;
+import com.adrian.school_site.repositories.StaffDataRepository;
 import com.adrian.school_site.utils.Constants;
 
 /**
@@ -42,6 +54,15 @@ public class SiteDataService {
 
 	@Autowired
 	private NewsDataRepository newsDataRepository;
+
+	@Autowired
+	private ImagesDataRepository imagesDataRepository;
+
+	@Autowired
+	private StaffDataRepository staffDataRepository;
+
+	@Autowired
+	private ResourcesDataRepository resourcesDataRepository;
 
 	/**
 	 * Gets the general data of the site.
@@ -81,15 +102,81 @@ public class SiteDataService {
 		result.sort(Comparator.comparing(NewsSiteData::getDate));
 		return result;
 	}
-	
+
+	public List<ResourcesSiteData> getAllResourcesData() {
+		Iterable<ResourcesData> repositoryData = resourcesDataRepository.findAll();
+		List<ResourcesSiteData> result = new ArrayList<>();
+		for (ResourcesData page : repositoryData) {
+			ResourcesSiteData siteData = convertFromEntity(page);
+			result.add(siteData);
+		}
+		result.sort(Comparator.comparing(ResourcesSiteData::getOrder));
+		return result;
+	}
+
+	public List<ImagesSiteData> getAllImagesData() {
+		Iterable<ImagesData> repositoryData = imagesDataRepository.findAll();
+		List<ImagesSiteData> result = new ArrayList<>();
+		for (ImagesData page : repositoryData) {
+			ImagesSiteData siteData = convertFromEntity(page);
+			result.add(siteData);
+		}
+		result.sort(Comparator.comparing(ImagesSiteData::getOrder));
+		return result;
+	}
+
+	public List<StaffSiteData> getAllStaffData() {
+		Iterable<StaffData> repositoryData = staffDataRepository.findAll();
+		List<StaffSiteData> result = new ArrayList<>();
+		for (StaffData page : repositoryData) {
+			StaffSiteData siteData = convertFromEntity(page);
+			result.add(siteData);
+		}
+		result.sort(Comparator.comparing(StaffSiteData::getOrder));
+		return result;
+	}
+
 	public NewsSiteData getNewsDataByTitle(final String title) {
 		Optional<NewsData> newsData = newsDataRepository.findByTitle(title);
 		NewsSiteData result = new NewsSiteData();
-		
+
 		if (newsData.isPresent()) {
 			result = convertFromEntity(newsData.get());
 		}
-		
+
+		return result;
+	}
+
+	public ImagesSiteData getImagesDataByTitle(final String title) {
+		Optional<ImagesData> imagesData = imagesDataRepository.findByTitle(title);
+		ImagesSiteData result = new ImagesSiteData();
+
+		if (imagesData.isPresent()) {
+			result = convertFromEntity(imagesData.get());
+		}
+
+		return result;
+	}
+
+	public ResourcesSiteData getResourcesByTitle(final String name) {
+		Optional<ResourcesData> imagesData = resourcesDataRepository.findByName(name);
+		ResourcesSiteData result = new ResourcesSiteData();
+
+		if (imagesData.isPresent()) {
+			result = convertFromEntity(imagesData.get());
+		}
+
+		return result;
+	}
+
+	public StaffSiteData getStaffByName(final String firstname, final String lastname) {
+		Optional<StaffData> staffData = staffDataRepository.findByFirstnameAndLastname(firstname, lastname);
+		StaffSiteData result = new StaffSiteData();
+
+		if (staffData.isPresent()) {
+			result = convertFromEntity(staffData.get());
+		}
+
 		return result;
 	}
 
@@ -113,40 +200,16 @@ public class SiteDataService {
 		for (PageData pageData : pageResults) {
 			switch (pageData.getId()) {
 			case 1:
-				pageData.setFeature1(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.MAIN))
-						.findFirst().get().getFeature1());
-				pageData.setFeature2(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.MAIN))
-						.findFirst().get().getFeature2());
-				pageData.setName(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.MAIN)).findFirst()
-						.get().getName());
-				pageData.setId(Page.MAIN.getId());
+				setPageData(model, pageData, Page.MAIN);
 				break;
 			case 2:
-				pageData.setFeature1(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.SECONDARY))
-						.findFirst().get().getFeature1());
-				pageData.setFeature2(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.SECONDARY))
-						.findFirst().get().getFeature2());
-				pageData.setName(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.SECONDARY))
-						.findFirst().get().getName());
-				pageData.setId(Page.SECONDARY.getId());
+				setPageData(model, pageData, Page.SECONDARY);
 				break;
 			case 3:
-				pageData.setFeature1(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.THIRD))
-						.findFirst().get().getFeature1());
-				pageData.setFeature2(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.THIRD))
-						.findFirst().get().getFeature2());
-				pageData.setName(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.THIRD))
-						.findFirst().get().getName());
-				pageData.setId(Page.THIRD.getId());
+				setPageData(model, pageData, Page.THIRD);
 				break;
 			case 4:
-				pageData.setFeature1(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.FORTH))
-						.findFirst().get().getFeature1());
-				pageData.setFeature2(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.FORTH))
-						.findFirst().get().getFeature2());
-				pageData.setName(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(Page.FORTH))
-						.findFirst().get().getName());
-				pageData.setId(Page.FORTH.getId());
+				setPageData(model, pageData, Page.FORTH);
 				break;
 			default:
 				LOG.severe("Unexpected page id.");
@@ -165,11 +228,11 @@ public class SiteDataService {
 	public CodeText saveNewsSiteData(SiteDataModel formSiteModel) {
 		NewsSiteData data = formSiteModel.getCurrentNews();
 		NewsData dataDb = convertFromEntity(data);
-		
-		if (StringUtils.isEmpty( dataDb.getTitle())) {
+
+		if (StringUtils.isEmpty(dataDb.getTitle())) {
 			return new CodeText(2, "'Title' cannot be empty.");
 		}
-		
+
 		try {
 			newsDataRepository.save(dataDb);
 		} catch (Exception e) {
@@ -183,6 +246,273 @@ public class SiteDataService {
 		return new CodeText(0, Constants.SAVE_SUCCESS_MESSAGE);
 	}
 
+	/**
+	 * Saves the form data from the admin page to the database.
+	 * 
+	 * @param model session data to be saved
+	 */
+	public CodeText saveImagesSiteData(SiteDataModel formSiteModel) {
+		ImagesSiteData data = formSiteModel.getCurrentImages();
+		ImagesData dataDb = convertFromEntity(data);
+
+		if (StringUtils.isEmpty(dataDb.getTitle())) {
+			return new CodeText(2, "'Title' cannot be empty.");
+		}
+
+		try {
+			imagesDataRepository.save(dataDb);
+		} catch (Exception e) {
+			if (e.getCause() instanceof ConstraintViolationException t) {
+				System.out.println(t.getCause().getMessage());
+				return new CodeText(1, t.getCause().getMessage());
+			}
+
+		}
+
+		return new CodeText(0, Constants.SAVE_SUCCESS_MESSAGE);
+	}
+
+	/**
+	 * Saves the form data from the admin resource page to the database.
+	 * 
+	 * @param model session data to be saved
+	 */
+	public CodeText saveResourcesSiteData(SiteDataModel formSiteModel) {
+		ResourcesSiteData data = formSiteModel.getCurrentResources();
+		ResourcesData dataDb = convertFromEntity(data);
+
+		if (StringUtils.isEmpty(dataDb.getName())) {
+			return new CodeText(2, "'Title' cannot be empty.");
+		}
+
+		try {
+			resourcesDataRepository.save(dataDb);
+		} catch (Exception e) {
+			if (e.getCause() instanceof ConstraintViolationException t) {
+				System.out.println(t.getCause().getMessage());
+				return new CodeText(1, t.getCause().getMessage());
+			}
+
+		}
+
+		return new CodeText(0, Constants.SAVE_SUCCESS_MESSAGE);
+	}
+
+	/**
+	 * Saves the form data from the admin staff page to the database.
+	 * 
+	 * @param model session data to be saved
+	 */
+	public CodeText saveStaffSiteData(SiteDataModel formSiteModel) {
+		StaffSiteData data = formSiteModel.getCurrentStaff();
+		StaffData dataDb = convertFromEntity(data);
+
+		if (StringUtils.isEmpty(dataDb.getFirstname())) {
+			return new CodeText(2, "'firstname' cannot be empty.");
+		}
+
+		if (StringUtils.isEmpty(dataDb.getLastname())) {
+			return new CodeText(2, "'lastname' cannot be empty.");
+		}
+
+		try {
+			staffDataRepository.save(dataDb);
+		} catch (Exception e) {
+			if (e.getCause() instanceof ConstraintViolationException t) {
+				System.out.println(t.getCause().getMessage());
+				return new CodeText(1, t.getCause().getMessage());
+			}
+
+		}
+
+		return new CodeText(0, Constants.SAVE_SUCCESS_MESSAGE);
+	}
+
+	/**
+	 * Deletes the images data by the given title information.
+	 * 
+	 * @param title
+	 * @return {@link CodeText} object containg the result of the delete images
+	 *         operation.
+	 */
+	@Transactional
+	public CodeText deleteImagesSiteData(final String title) {
+
+		if (ObjectUtils.isEmpty(title)) {
+			return new CodeText(2, "'Title' cannot be empty.");
+		}
+
+		try {
+			Integer result = imagesDataRepository.deleteByTitle(title);
+			LOG.info("Removed news with id " + result);
+		} catch (Exception e) {
+			if (e.getCause() instanceof ConstraintViolationException t) {
+				System.out.println(t.getCause().getMessage());
+				return new CodeText(1, t.getCause().getMessage());
+			}
+
+		}
+
+		return new CodeText(0, Constants.DELETE_SUCCESS_MESSAGE);
+	}
+
+	/**
+	 * Deletes the resources data by the given title information.
+	 * 
+	 * @param title
+	 * @return {@link CodeText} object containg the result of the delete resources
+	 *         operation.
+	 */
+	@Transactional
+	public CodeText deleteResourcesSiteData(final String name) {
+
+		if (ObjectUtils.isEmpty(name)) {
+			return new CodeText(2, "'Title' cannot be empty.");
+		}
+
+		try {
+			Integer result = resourcesDataRepository.deleteByName(name);
+			LOG.info("Removed news with id " + result);
+		} catch (Exception e) {
+			if (e.getCause() instanceof ConstraintViolationException t) {
+				System.out.println(t.getCause().getMessage());
+				return new CodeText(1, t.getCause().getMessage());
+			}
+
+		}
+
+		return new CodeText(0, Constants.DELETE_SUCCESS_MESSAGE);
+	}
+
+	/**
+	 * Deletes the staff data by the given title information.
+	 * 
+	 * @param title
+	 * @return {@link CodeText} object containg the result of the delete resources
+	 *         operation.
+	 */
+	@Transactional
+	public CodeText deleteStaffSiteData(final String firstname, final String lastname) {
+
+		if (ObjectUtils.isEmpty(firstname)) {
+			return new CodeText(2, "'firstname' cannot be empty.");
+		}
+
+		if (ObjectUtils.isEmpty(lastname)) {
+			return new CodeText(2, "'lastname' cannot be empty.");
+		}
+
+		try {
+			Integer result = staffDataRepository.deleteByFirstnameAndLastname(firstname, lastname);
+			LOG.info("Removed news with id " + result);
+		} catch (Exception e) {
+			if (e.getCause() instanceof ConstraintViolationException t) {
+				System.out.println(t.getCause().getMessage());
+				return new CodeText(1, t.getCause().getMessage());
+			}
+
+		}
+
+		return new CodeText(0, Constants.DELETE_SUCCESS_MESSAGE);
+	}
+
+	/**
+	 * Deletes the news data by the given title information.
+	 * 
+	 * @param title
+	 * @return {@link CodeText} object containg the result of the delete news
+	 *         operation.
+	 */
+	@Transactional
+	public CodeText deleteNewsSiteData(final String title) {
+
+		if (ObjectUtils.isEmpty(title)) {
+			return new CodeText(2, "'Title' cannot be empty.");
+		}
+
+		try {
+			Integer result = newsDataRepository.deleteByTitle(title);
+			LOG.info("Removed news with id " + result);
+		} catch (Exception e) {
+			if (e.getCause() instanceof ConstraintViolationException t) {
+				System.out.println(t.getCause().getMessage());
+				return new CodeText(1, t.getCause().getMessage());
+			}
+
+		}
+
+		return new CodeText(0, Constants.DELETE_SUCCESS_MESSAGE);
+	}
+
+	private ResourcesSiteData convertFromEntity(ResourcesData data) {
+		ResourcesSiteData resource = new ResourcesSiteData();
+		resource.setDescription(data.getDescription());
+		resource.setOrder(data.getOrder());
+		resource.setName(data.getName());
+		resource.setInfo(Page.fromInt(data.getPageId()).get());
+		resource.setDoc(Base64.getEncoder().encodeToString(data.getDoc()));
+
+		return resource;
+	}
+
+	private ResourcesData convertFromEntity(ResourcesSiteData data) {
+		ResourcesData resourceDb = new ResourcesData();
+		resourceDb.setDescription(data.getDescription());
+		resourceDb.setOrder(data.getOrder());
+		resourceDb.setName(data.getName());
+		resourceDb.setPageId(data.getInfo().getId());
+		resourceDb.setDoc(Base64.getDecoder().decode(data.getDoc()));
+
+		return resourceDb;
+	}
+
+	private StaffSiteData convertFromEntity(StaffData data) {
+		StaffSiteData staff = new StaffSiteData();
+		staff.setFirstname(data.getFirstname());
+		staff.setOrder(data.getOrder());
+		staff.setLastname(data.getLastname());
+		staff.setJobtype(data.getJobtype());
+		staff.setUnitname(data.getUnitname());
+		staff.setInfo(Page.fromInt(data.getPageId()).get());
+
+		return staff;
+	}
+
+	private StaffData convertFromEntity(StaffSiteData data) {
+		StaffData staffDb = new StaffData();
+		staffDb.setFirstname(data.getFirstname());
+		staffDb.setOrder(data.getOrder());
+		staffDb.setLastname(data.getLastname());
+		staffDb.setJobtype(data.getJobtype());
+		staffDb.setUnitname(data.getUnitname());
+		staffDb.setPageId(data.getInfo().getId());
+		return staffDb;
+	}
+
+	private ImagesSiteData convertFromEntity(ImagesData data) {
+		ImagesSiteData image = new ImagesSiteData();
+		image.setDescription(data.getDescription());
+		image.setOrder(data.getOrder());
+		image.setTitle(data.getTitle());
+		image.setInfo(Page.fromInt(data.getPageId()).get());
+		image.setImage(Base64.getEncoder().encodeToString(data.getImage()));
+		image.setPageTitle(data.getPageTitle());
+
+		return image;
+	}
+
+	private ImagesData convertFromEntity(ImagesSiteData data) {
+		ImagesData imagesDb = new ImagesData();
+		imagesDb.setDescription(data.getDescription());
+		imagesDb.setOrder(data.getOrder());
+		imagesDb.setTitle(data.getTitle());
+		imagesDb.setPageId(data.getInfo().getId());
+		imagesDb.setImage(Base64.getDecoder().decode(data.getImage()));
+		imagesDb.setPageTitle(data.getPageTitle());
+
+		return imagesDb;
+	}
+
 	private NewsData convertFromEntity(NewsSiteData data) {
 		NewsData newsDb = new NewsData();
 		newsDb.setDate(data.getDate());
@@ -192,6 +522,7 @@ public class SiteDataService {
 		newsDb.setLinkurl(data.getLinkUrl());
 		newsDb.setPageId(data.getInfo().getId());
 		newsDb.setImage(Base64.getDecoder().decode(data.getImage()));
+		newsDb.setPageTitle(data.getPageTitle());
 		return newsDb;
 	}
 
@@ -204,6 +535,7 @@ public class SiteDataService {
 		news.setLinkUrl(data.getLinkurl());
 		news.setInfo(Page.fromInt(data.getPageId()).get());
 		news.setImage(Base64.getEncoder().encodeToString(data.getImage()));
+		news.setPageTitle(data.getPageTitle());
 		return news;
 	}
 
@@ -224,5 +556,15 @@ public class SiteDataService {
 		result.setFeature2(entity.getFeature2());
 		result.setName(entity.getName());
 		return result;
+	}
+
+	private void setPageData(SiteDataModel model, PageData pageData, Page pageInfo) {
+		pageData.setFeature1(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(pageInfo)).findFirst()
+				.get().getFeature1());
+		pageData.setFeature2(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(pageInfo)).findFirst()
+				.get().getFeature2());
+		pageData.setName(
+				model.getPageSiteData().stream().filter(e -> e.getInfo().equals(pageInfo)).findFirst().get().getName());
+		pageData.setId(pageInfo.getId());
 	}
 }

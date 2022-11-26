@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="https://thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+	<th:block th:replace="fragments/footer :: footer"></th:block>
+	<script type="text/javascript" th:src="@{/js/common.js}"></script>
+
+	<div th:replace="fragments/top :: top"></div>
+	<div class="container">
+		<table class="table">
+			<thead>
+				<tr>
+					<th scope="col">Nume</th>
+					<th scope="col">Descriere</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="resources,iStat: ${siteModel.resourcesSiteData}" th:classappend ="${iStat.index} % 2 == 1 ? 'newsCard'">
+					<td>
+						<a th:text="${resources.name}" th:href="@{/download/{id}(id=${resources.name})}"></a>
+					</td>
+					<td>
+						<span th:text="${resources.description}"></span>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

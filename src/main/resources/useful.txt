@@ -1,0 +1,25 @@
+https://preview.colorlib.com/theme/bootstrap/website-menu-12/#
+
+
+}
+.example-choice-list {
+ padding:0
+}
+.editor-wrapper {
+ display:flex;
+ flex-direction:column
+}
+@media screen and (min-width:590px) {
+ .editor-wrapper {
+  display:grid;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:0
+ }
+}
+.example-choice-list.large.live,
+.example-choice-list.live {
+ padding:1rem;
+ text-align:right;
+ overflow:auto;
+ border-bottom:1px solid var(--border-primary)
+}

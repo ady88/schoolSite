@@ -1,22 +1,15 @@
 package com.adrian.school_site.model;
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
 import com.adrian.school_site.utils.Constants;
 
-public class NewsSiteData {
+public class ImagesSiteData {
 	private Page info;
 	private String title;
 	private String description;
-	@DateTimeFormat(iso = ISO.DATE)
-	private Date date = new Date();
-	private String image = Constants.TEMPLATE_IMAGE_DATA;
-	private String linkLabel;
-	private String linkUrl;
+
 	private String pageTitle;
+	private String image = Constants.TEMPLATE_IMAGE_DATA;
+	private Integer order;
 
 	public Page getInfo() {
 		return info;
@@ -42,14 +35,6 @@ public class NewsSiteData {
 		this.description = description;
 	}
 
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
 	public String getImage() {
 		return image;
 	}
@@ -58,20 +43,12 @@ public class NewsSiteData {
 		this.image = image;
 	}
 
-	public String getLinkLabel() {
-		return linkLabel;
+	public Integer getOrder() {
+		return order;
 	}
 
-	public void setLinkLabel(String linkLabel) {
-		this.linkLabel = linkLabel;
-	}
-
-	public String getLinkUrl() {
-		return linkUrl;
-	}
-
-	public void setLinkUrl(String linkUrl) {
-		this.linkUrl = linkUrl;
+	public void setOrder(Integer order) {
+		this.order = order;
 	}
 
 	public String getPageTitle() {
@@ -80,5 +57,11 @@ public class NewsSiteData {
 
 	public void setPageTitle(String pageTitle) {
 		this.pageTitle = pageTitle;
+	}
+
+	@Override
+	public String toString() {
+		return "{\"info\":\"" + info + "\", \"title\":\"" + title + "\", \"description\":\"" + description + "\", \"pageTitle\":\""
+				+ pageTitle + "\", \"order\":" + order + "}";
 	}
 }
