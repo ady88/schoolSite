@@ -43,3 +43,4 @@ VALUES('Contact', 'contact', '-', 4);
 
 ALTER SEQUENCE page_id_seq RESTART WITH 1;
 
+heroku ps:scale web=0

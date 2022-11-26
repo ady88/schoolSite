@@ -128,6 +128,10 @@ public class MainController {
 		if (siteModel.getGeneralSiteModel() == null) {
 			siteModel.setGeneralSiteModel(siteService.getGeneralSiteData());
 		}
+		
+		if (siteModel.getGeneralSiteModel() == null) {
+			siteModel.setGeneralSiteModel(siteService.getGeneralSiteData());
+		}
 
 		if (CollectionUtils.isEmpty(siteModel.getPageSiteData())) {
 			siteModel.setPageSiteData(siteService.getAllPageData());

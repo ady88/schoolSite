@@ -10,9 +10,9 @@
 	<div class="container">
 		<h3>Contact</h3>
 		<ul class="list-group mb-4">
-			<li style="background-color: #93c178" class="list-group-item">Adresa: SAT TELEȘTI COM. TELEȘTI</li>
-			<li style="background-color: #93c178" class="list-group-item">Telefon: 0253 276 451</li>
-			<li style="background-color: #93c178" class="list-group-item">Email: scoalatelesti@yahoo.com</li>
+			<li style="background-color: #93c178" class="list-group-item"><span th:text="'Adresa: ' + ${siteModel.generalSiteModel.adress}"> </span></li>
+			<li style="background-color: #93c178" class="list-group-item"><span th:text="'Telefon/Fax: ' + ${siteModel.generalSiteModel.phone}"> </span></li>
+			<li style="background-color: #93c178" class="list-group-item"><span th:text="'Email: ' + ${siteModel.generalSiteModel.email}"> </span></li>
 		</ul>
 
 		<h4>Structurile noastre sunt:</h4>
