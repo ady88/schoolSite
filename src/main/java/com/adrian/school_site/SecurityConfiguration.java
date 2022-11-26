@@ -18,8 +18,8 @@ public class SecurityConfiguration {
 	public InMemoryUserDetailsManager userDetailsService(PasswordEncoder passwordEncoder) {
 		UserDetails user = User.withUsername("user").password(passwordEncoder.encode("password")).roles("USER").build();
 
-		UserDetails admin = User.withUsername("admin").password(passwordEncoder.encode("admin1qaz2wsx")).roles("USER", "ADMIN")
-				.build();
+		UserDetails admin = User.withUsername("admin").password(passwordEncoder.encode("admin1qaz2wsx"))
+				.roles("USER", "ADMIN").build();
 
 		return new InMemoryUserDetailsManager(user, admin);
 	}
