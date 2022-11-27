@@ -114,3 +114,7 @@ a:hover {
 	background-color: #465c8b !important;
 	color: azure;
 }
+
+.social-media-link:hover {
+	background-color: transparent;	
+}
