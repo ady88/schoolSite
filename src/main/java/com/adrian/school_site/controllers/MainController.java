@@ -36,7 +36,7 @@ public class MainController {
 	 * 
 	 * @return the {@link ModelAndView} object for the home page
 	 */
-	@GetMapping(path = "home")
+	@GetMapping(path = { "/", "/home" })
 	public ModelAndView getMainPage() {
 		final ModelAndView viewModel = new ModelAndView("home");
 
