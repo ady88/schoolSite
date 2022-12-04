@@ -9,5 +9,15 @@
 	th:href="@{/webjars/bootstrap/5.1.3/css/bootstrap.min.css} " />
 <link th:rel="stylesheet"
 	th:href="@{webjars/font-awesome/6.2.0/css/all.css}" />
+<style th:inline="css" type="text/css" media="screen, print">
+    @font-face {
+        font-family: "Optima";
+        font-weight: normal;
+        src: url("[(@{/fonts/OPTIMA.TTF})]");
+    }
+    .test { 
+        font-family: "Optima";
+    }
+</style>
 </head>
 </html>

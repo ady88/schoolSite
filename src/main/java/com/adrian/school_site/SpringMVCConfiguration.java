@@ -15,7 +15,7 @@ public class SpringMVCConfiguration implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/**").addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
-		registry.addResourceHandler("/webjars/**").addResourceLocations("/webjars/")
+		registry.addResourceHandler("/webjars/**","/resources/**").addResourceLocations("/webjars/", "classpath:/static/")
 				.setCacheControl(CacheControl.maxAge(365, TimeUnit.DAYS)).resourceChain(true);
 	}
 }
