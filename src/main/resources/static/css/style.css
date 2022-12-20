@@ -5,7 +5,7 @@
 }
 
 .school_section {
-	padding: 7em 0em 0em 0em;
+	padding: 1em 0em 0em 0em;
 	background-color: silver;
 }
 
@@ -104,7 +104,7 @@ a:hover {
     border-style: solid;
     border-bottom-left-radius: 2.5em;
     border-width: 1.5em;
-    border-color: #93c178;
+    border-color: #1097cd;
 }
 
 #imgDescription {
@@ -160,7 +160,7 @@ a:hover {
 
 .wrapper-site-top {
 	background-image: url("/imgs/back02.png");
-	min-height: 250px;
+	min-height: 150px;
 }
 
 .table-site {
@@ -174,13 +174,23 @@ a:hover {
 
 .links-main {
 	text-align: center;
-	padding: 0.3em 1em 0.3em 0em;
+	padding: 0.3em;
 }
 
 .mainNewsBody {
 	border-radius: 2.5em;
-	background-color: #93c178;
+	background-color: #1097cd;
 	padding: 1em 1em 1em 1em;
 	margin-bottom: 1em;
 }
 
+.utilLinks {
+	border-radius: 1em;
+	background-color: #1097cd;
+	padding: 1em;
+	margin-bottom: 0.3em;
+}
+
+.utilLinkStyle {
+	color: floralwhite;
+}

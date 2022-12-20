@@ -9,12 +9,12 @@ import java.util.logging.Logger;
 
 import javax.transaction.Transactional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import com.adrian.school_site.entity.GeneralData;
 import com.adrian.school_site.entity.ImagesData;
@@ -107,7 +107,7 @@ public class CacheableDataService {
 			NewsSiteData siteData = convertFromEntity(page);
 			result.add(siteData);
 		}
-		result.sort(Comparator.comparing(NewsSiteData::getDate));
+		result.sort(Comparator.comparing(NewsSiteData::getDate, Comparator.reverseOrder()));
 		return result;
 	}
 
@@ -193,12 +193,27 @@ public class CacheableDataService {
 	 * 
 	 * @param model session data to be saved
 	 */
+	@Transactional
 	public CodeText saveNewsSiteData(SiteDataModel formSiteModel) {
 		NewsSiteData data = formSiteModel.getCurrentNews();
 		NewsData dataDb = convertFromEntity(data);
 
 		if (StringUtils.isEmpty(dataDb.getTitle())) {
 			return new CodeText(2, "'Title' cannot be empty.");
+		}
+
+		// if news item already exists then remove it and re-add it
+		Optional<NewsData> existingNews = newsDataRepository.findByTitle(data.getTitle());
+
+		if (existingNews.isPresent() && StringUtils.isNotEmpty(existingNews.get().getTitle())) {
+			NewsData newData = existingNews.get();
+			newData.setDescription(data.getDescription());
+			newData.setTitle(data.getTitle());
+			newData.setPageTitle(data.getPageTitle());
+			newData.setDate(data.getDate());
+			newsDataRepository.save(newData);
+			cacheUtils.evictAllCacheValues("news");
+			return new CodeText(0, Constants.SAVE_SUCCESS_MESSAGE);
 		}
 
 		try {
@@ -284,6 +299,22 @@ public class CacheableDataService {
 
 		if (StringUtils.isEmpty(dataDb.getLastname())) {
 			return new CodeText(2, "'lastname' cannot be empty.");
+		}
+
+		// if staff item already exists then remove it and re-add it
+		Optional<StaffData> existingStaff = staffDataRepository.findByFirstnameAndLastname(data.getFirstname(), data.getLastname());
+
+		if (existingStaff.isPresent() && StringUtils.isNotEmpty(existingStaff.get().getFirstname())) {
+			StaffData staffData = existingStaff.get();
+			staffData.setFirstname(data.getFirstname());
+			
+			staffData.setLastname(data.getLastname());
+			staffData.setOrder(data.getOrder());
+			staffData.setJobtype(data.getJobtype());
+			staffData.setUnitname(data.getUnitname());
+			staffDataRepository.save(staffData);
+			cacheUtils.evictAllCacheValues("staff");
+			return new CodeText(0, Constants.SAVE_SUCCESS_MESSAGE);
 		}
 
 		try {
