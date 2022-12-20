@@ -14,14 +14,28 @@ $('document').ready(function() {
 	}
 	let currentIndex = 0;
 
-	myCarousel.addEventListener('slide.bs.carousel', function() {
+	myCarousel.addEventListener('slide.bs.carousel', function(event) {
 		let imagesData = myCarousel.getAttribute('images');
+		console.log('ADRIAN 123344');
+		console.log(event);
+		let direction =  event.direction;
 
 		if (imagesData != null && imagesData.length > 0) {
 			console.log(imagesData[0]);
 			console.log(JSON.parse(imagesData));
 			let jsonImageData = JSON.parse(imagesData);
-			currentIndex = currentIndex + 1;
+			
+			if (direction == 'left') {
+				currentIndex = currentIndex + 1;
+			} else {
+				if (currentIndex == 0) {
+					currentIndex = jsonImageData.length - 1;
+				} else {
+					currentIndex = currentIndex - 1;
+				}
+			}
+			
+			
 			let index = currentIndex % jsonImageData.length;
 			console.log(index);
 			console.log(jsonImageData[index]['pageTitle']);
