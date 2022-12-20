@@ -43,6 +43,10 @@ a:hover {
 .img-wrapper {
     max-height: 800px;
     overflow: hidden;
+    border-style: solid;
+    border-bottom-right-radius: 2.5em;
+    border-width: 1.5em 1.5em 1.5em 0em;
+    border-color: #1097cd;
 }
 
 .image-text-box {
@@ -193,4 +197,13 @@ a:hover {
 
 .utilLinkStyle {
 	color: floralwhite;
+}
+
+.carousel-item {
+  transition: transform 1.6s ease-in-out;
+}
+
+.carousel-fade .active.carousel-item-start,
+.carousel-fade .active.carousel-item-end {
+  transition: opacity 0s 1.6s;
 }

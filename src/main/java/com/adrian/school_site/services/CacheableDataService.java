@@ -208,6 +208,11 @@ public class CacheableDataService {
 		if (existingNews.isPresent() && StringUtils.isNotEmpty(existingNews.get().getTitle())) {
 			NewsData newData = existingNews.get();
 			newData.setDescription(data.getDescription());
+			
+			if (StringUtils.isNotEmpty(newData.getDescription())) {
+				newData.setDescription(newData.getDescription().replace("---", "<br> &nbsp;&nbsp;&nbsp;&nbsp; -"));
+			}
+			
 			newData.setTitle(data.getTitle());
 			newData.setPageTitle(data.getPageTitle());
 			newData.setDate(data.getDate());

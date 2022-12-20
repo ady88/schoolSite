@@ -13,7 +13,7 @@
 				<hr style="margin-top: -1em;" />
 				<p id="imgDescription" class="img-text"></p>
 			</div>
-			<div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel"
+			<div id="carouselExampleDark" class="carousel carousel-fade carousel-dark slide" data-bs-ride="carousel"
 				data-th-images="${siteModel.imagesSiteData}">
 				<div class="carousel-inner">
 					<div th:each="image,iStat: ${siteModel.imagesSiteData}" class=" img-wrapper carousel-item"
@@ -46,7 +46,7 @@
 												<h5 th:text="${news.pageTitle}" class="card-title"></h5>
 											</div>
 											<div class="card-body">
-												<p th:text="${news.description}" class="card-text"></p>
+												<p th:utext="'&nbsp;&nbsp;&nbsp;&nbsp;' + ${news.description}" class="card-text"></p>
 												<a th:text="${news.linkLabel}" th:href="${news.linkUrl}"></a>
 											</div>
 										</div>
@@ -62,7 +62,7 @@
 												<h5 th:text="${news.pageTitle}" class="card-title"></h5>
 											</div>
 											<div class="card-body">
-												<p th:text="${news.description}" class="card-text"></p>
+												<p th:utext="'&nbsp;&nbsp;&nbsp;&nbsp;' + ${news.description}" class="card-text"></p>
 												<a th:text="${news.linkLabel}" th:href="${news.linkUrl}"></a>
 											</div>
 										</div>
