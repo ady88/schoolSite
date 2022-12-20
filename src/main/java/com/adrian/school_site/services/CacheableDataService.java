@@ -216,6 +216,8 @@ public class CacheableDataService {
 			newData.setTitle(data.getTitle());
 			newData.setPageTitle(data.getPageTitle());
 			newData.setDate(data.getDate());
+			newData.setLinklabel(data.getLinkLabel());
+			newData.setLinkurl(data.getLinkUrl());
 			newsDataRepository.save(newData);
 			cacheUtils.evictAllCacheValues("news");
 			return new CodeText(0, Constants.SAVE_SUCCESS_MESSAGE);
