@@ -185,6 +185,7 @@ public class CacheableDataService {
 
 			}
 			pageDataRepository.saveAll(pageResults);
+			cacheUtils.evictAllCacheValues("pages");
 		}
 	}
 

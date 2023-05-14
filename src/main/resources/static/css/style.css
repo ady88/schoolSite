@@ -20,7 +20,7 @@
 
 .my-navbar-light {
 	background: #1097cd!important;
-	z-index: 3;
+	z-index: 0;
 	padding: 0 !important;
 }
 
@@ -43,7 +43,7 @@ a:hover {
 .img-wrapper {
     max-height: 800px;
     overflow: hidden;
-    border-style: solid;
+    border-style: groove;
     border-bottom-right-radius: 2.5em;
     border-width: 1.5em 1.5em 1.5em 0em;
     border-color: #1097cd;
@@ -100,14 +100,14 @@ a:hover {
 
 #img-description-area {
     background-color: floralwhite;
-    color: black;
+    color: darkslategrey;
     display: grid;
     grid-template-rows: 1fr auto 4fr;
     justify-content: center;
     padding: 0.7em;
-    border-style: solid;
+    border-style: groove;
     border-bottom-left-radius: 2.5em;
-    border-width: 1.5em;
+    border-width: 1.5em 0em 1.5em 1.5em;
     border-color: #1097cd;
 }
 
@@ -118,32 +118,33 @@ a:hover {
 .newsCard {
 	height: 100%;
 	background-color: cornsilk !important;
-	color: black;
+	color: darkslategrey;
 	opacity: 95%;
 }
 
 .mainNewsCard {
 	height: 100%;
 	background-color: floralwhite !important;
-	color: black;
+	color: darkslategrey;
 	opacity: 95%;
 	border-radius: 35px !important;
-	border-color: #465c8b !important;
+	border-color: darkslategrey !important;
 	border-width: 3px !important;
+	border-style: double !important;
 }
 
 .linkNewsCard {
 	height: 100%;
-	background-color: floralwhite !important;
-	color: black;
+	width: 107%;
+	background-color: #1097cd !important;
+	color: darkslategrey;
 	opacity: 95%;
-	border-color: #465c8b !important;
-	border-width: 3px !important;
 }
 
 .newsHeader {
 	background-color: #1097cd !important;
 	color: azure;
+	border-width:3px !important;
 }
 
 .social-media-link:hover {
@@ -155,6 +156,7 @@ a:hover {
 	font-size: 5.5em;
 	background-color: rgba(0,0,0,0.1);
 	border-radius: 35px;
+	color: darkslategrey;
 }
 
 .wrapper-site {
@@ -170,6 +172,11 @@ a:hover {
 .table-site {
 	background-color: floralwhite;
 	opacity: 95%;
+}
+
+.motto-text {
+	color: darkslategrey;
+	font-weight: bold;
 }
 
 .news-row {
@@ -190,13 +197,16 @@ a:hover {
 
 .utilLinks {
 	border-radius: 1em;
-	background-color: #1097cd;
+	background-color: floralwhite;
 	padding: 1em;
 	margin-bottom: 0.3em;
+	border-style: double !important;
+	border-color: darkslategrey !important;
+	border-width: 3px !important;
 }
 
 .utilLinkStyle {
-	color: floralwhite;
+	color: darkslategrey;
 }
 
 .carousel-item {

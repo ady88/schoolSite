@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.adrian</groupId>
 	<artifactId>school_site</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.2</version>
 	<name>school_site</name>
 	<description>School site web application is a slightly customizable school website.</description>
 	<properties>
