@@ -15,7 +15,7 @@
 }
 
 .social_media:hover {
-	color: #93c178;
+	color: burlywood;
 }
 
 .my-navbar-light {
@@ -25,12 +25,12 @@
 }
 
 .active a {
-    background-color: #93c178;
+    background-color: burlywood;
     color: #dfd3e3;
 }
 
 a:hover {
-    background-color: #93c178;
+    background-color: burlywood;
     color: #dfd3e3;
 }
 
@@ -216,4 +216,9 @@ a:hover {
 .carousel-fade .active.carousel-item-start,
 .carousel-fade .active.carousel-item-end {
   transition: opacity 0s 1.6s;
+}
+
+.card-link {
+	background-color: burlywood !important;
+	text-decoration: burlywood !important;
 }

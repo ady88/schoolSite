@@ -1,4 +1,23 @@
 $('document').ready(function() {
+
+	
+	$(".utilLinks").mouseup(function () {
+    	$(this).css('background-color', 'floralwhite');
+	});
+	
+	$(".utilLinks").mousedown(function () {
+		window.open($(this).attr("linkUrl"));
+    	$(this).css('background-color', 'burlywood');
+	});
+	
+	$(".utilLinks").hover(function () {
+    	$(this).css('background-color', 'burlywood');
+	}, function () {
+    	$(this).css('background-color', 'floralwhite');
+	});
+
+	
+	
 	var myCarousel = document.getElementById('carouselExampleDark');
 	let imagesData = myCarousel.getAttribute('images');
 	if (imagesData != null && imagesData.length > 0) {

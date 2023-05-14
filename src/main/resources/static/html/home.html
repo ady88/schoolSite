@@ -47,7 +47,7 @@
 											</div>
 											<div class="card-body">
 												<p th:utext="'&nbsp;&nbsp;&nbsp;&nbsp;' + ${news.description}" class="card-text"></p>
-												<a th:text="${news.linkLabel}" th:href="${news.linkUrl}"></a>
+												<a th:text="${news.linkLabel}" th:href="${news.linkUrl}" class="card-link"></a>
 											</div>
 										</div>
 									</div>
@@ -63,7 +63,7 @@
 											</div>
 											<div class="card-body">
 												<p th:utext="'&nbsp;&nbsp;&nbsp;&nbsp;' + ${news.description}" class="card-text"></p>
-												<a th:text="${news.linkLabel}" th:href="${news.linkUrl}"></a>
+												<a th:text="${news.linkLabel}" th:href="${news.linkUrl}" class="card-link"></a>
 											</div>
 										</div>
 									</div>
@@ -82,8 +82,8 @@
 								<h5 class="card-title">Link-uri utile</h5>
 							</div>
 							<div th:each="news,iStat: ${links}" class="links-main">
-								<div class="utilLinks">
-									<a class="utilLinkStyle" th:text="${news.linkLabel}" th:href="${news.linkUrl}"></a>
+								<div class="utilLinks" th:id="'linkId' + ${iStat.index}" data-th-linkUrl="${news.linkUrl}">
+									<p th:utext="${news.linkLabel}"    class="card-text"></p>
 								</div>
 							</div>
 						</div>
