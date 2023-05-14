@@ -14,7 +14,7 @@ import com.adrian.school_site.model.seo.XmlUrlSet;
 @Controller
 public class SeoController {
 
-	private List<String> URLS = List.of("/home", "/resurse", "/personal", "/contact");
+	private List<String> URLS = List.of("/", "/resurse", "/personal", "/contact");
 
 	@Value("${sitemap.path: http://www.scoala-telesti.net/sitemap.xml}")
 	private String sitemapPath;

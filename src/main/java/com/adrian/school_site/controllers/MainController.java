@@ -26,7 +26,7 @@ public class MainController {
 
 	static {
 		PAGES_URLS = new ArrayList<>();
-		PAGES_URLS.add("/home");
+		PAGES_URLS.add("/");
 		PAGES_URLS.add("/resurse");
 		PAGES_URLS.add("/personal");
 		PAGES_URLS.add("/contact");
@@ -38,7 +38,7 @@ public class MainController {
 	 * 
 	 * @return the {@link ModelAndView} object for the home page
 	 */
-	@GetMapping(path = { "/", "/home" })
+	@GetMapping(path = { "/" })
 	public ModelAndView getMainPage() {
 		final ModelAndView viewModel = new ModelAndView("home");
 
