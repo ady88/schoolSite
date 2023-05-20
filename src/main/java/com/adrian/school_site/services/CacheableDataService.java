@@ -209,11 +209,11 @@ public class CacheableDataService {
 		if (existingNews.isPresent() && StringUtils.isNotEmpty(existingNews.get().getTitle())) {
 			NewsData newData = existingNews.get();
 			newData.setDescription(data.getDescription());
-			
+
 			if (StringUtils.isNotEmpty(newData.getDescription())) {
 				newData.setDescription(newData.getDescription().replace("---", "<br> &nbsp;&nbsp;&nbsp;&nbsp; -"));
 			}
-			
+
 			newData.setTitle(data.getTitle());
 			newData.setPageTitle(data.getPageTitle());
 			newData.setDate(data.getDate());
@@ -310,12 +310,13 @@ public class CacheableDataService {
 		}
 
 		// if staff item already exists then remove it and re-add it
-		Optional<StaffData> existingStaff = staffDataRepository.findByFirstnameAndLastname(data.getFirstname(), data.getLastname());
+		Optional<StaffData> existingStaff = staffDataRepository.findByFirstnameAndLastname(data.getFirstname(),
+				data.getLastname());
 
 		if (existingStaff.isPresent() && StringUtils.isNotEmpty(existingStaff.get().getFirstname())) {
 			StaffData staffData = existingStaff.get();
 			staffData.setFirstname(data.getFirstname());
-			
+
 			staffData.setLastname(data.getLastname());
 			staffData.setOrder(data.getOrder());
 			staffData.setJobtype(data.getJobtype());
@@ -463,6 +464,7 @@ public class CacheableDataService {
 		resource.setDescription(data.getDescription());
 		resource.setOrder(data.getOrder());
 		resource.setName(data.getName());
+		resource.setResourceDate(data.getResourceDate());
 		resource.setInfo(Page.fromInt(data.getPageId()).get());
 		resource.setDoc(Base64.getEncoder().encodeToString(data.getDoc()));
 
@@ -474,6 +476,7 @@ public class CacheableDataService {
 		resourceDb.setDescription(data.getDescription());
 		resourceDb.setOrder(data.getOrder());
 		resourceDb.setName(data.getName());
+		resourceDb.setResourceDate(data.getResourceDate());
 		resourceDb.setPageId(data.getInfo().getId());
 		resourceDb.setDoc(Base64.getDecoder().decode(data.getDoc()));
 

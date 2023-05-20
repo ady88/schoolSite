@@ -14,6 +14,7 @@
 					<tr>
 						<th scope="col">Nume</th>
 						<th scope="col">Descriere</th>
+						<th scope="col">Postat la</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -23,6 +24,9 @@
 						</td>
 						<td>
 							<span th:text="${resources.description}"></span>
+						</td>
+						<td>
+							<span th:text="${#dates.format(resources.resourceDate, 'dd.MM.yyyy')}"></span>
 						</td>
 					</tr>
 				</tbody>

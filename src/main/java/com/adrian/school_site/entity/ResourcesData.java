@@ -1,5 +1,7 @@
 package com.adrian.school_site.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -18,6 +20,8 @@ public class ResourcesData {
 	private String description;
 	@Column(name = "pageid")
 	private int pageId;
+	@Column(name = "resourcedate")
+	private Date resourceDate;
 	private byte[] doc;
 	@Column(name = "orderdoc")
 	private int order;
@@ -69,4 +73,13 @@ public class ResourcesData {
 	public void setOrder(int order) {
 		this.order = order;
 	}
+
+	public Date getResourceDate() {
+		return resourceDate;
+	}
+
+	public void setResourceDate(Date resourceDate) {
+		this.resourceDate = resourceDate;
+	}
+
 }

@@ -37,6 +37,16 @@
 					class="text-center col-sm-4 gx-4 offset-sm-4"
 					th:classappend="${'alert ' + alertClass}"></p>
 			</div>
+			
+			<div class="row mb-3 mt-4 g-0 m-4">
+				<label for="inputResourcesTitle"
+					class="col-sm-1 gx-4 offset-sm-4 col-form-label">Data</label>
+				<div class="col-sm-3 g-0">
+					<input type="date" class="form-control"
+						th:field="*{currentResources.resourceDate}" id="inputResourcesDate"></input>
+				</div>
+			</div>
+			
 			<div class="row mb-3 mt-4 g-0 m-4">
 				<label for="inputResourcesTitle"
 					class="col-sm-1 gx-4 offset-sm-4 col-form-label">Titlu</label>
