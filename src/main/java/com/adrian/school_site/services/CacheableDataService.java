@@ -119,7 +119,7 @@ public class CacheableDataService {
 			ResourcesSiteData siteData = convertFromEntity(page);
 			result.add(siteData);
 		}
-		result.sort(Comparator.comparing(ResourcesSiteData::getOrder));
+		result.sort(Comparator.comparing(ResourcesSiteData::getResourceDate).reversed());
 		return result;
 	}
 
