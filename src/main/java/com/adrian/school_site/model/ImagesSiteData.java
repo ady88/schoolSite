@@ -3,21 +3,13 @@ package com.adrian.school_site.model;
 import com.adrian.school_site.utils.Constants;
 
 public class ImagesSiteData {
-	private Page info;
+	private String id;
 	private String title;
 	private String description;
 
-	private String pageTitle;
 	private String image = Constants.TEMPLATE_IMAGE_DATA;
 	private Integer order;
-
-	public Page getInfo() {
-		return info;
-	}
-
-	public void setInfo(Page info) {
-		this.info = info;
-	}
+	private String imageContentType;
 
 	public String getTitle() {
 		return title;
@@ -51,17 +43,25 @@ public class ImagesSiteData {
 		this.order = order;
 	}
 
-	public String getPageTitle() {
-		return pageTitle;
+	public String getImageContentType() {
+		return imageContentType;
 	}
 
-	public void setPageTitle(String pageTitle) {
-		this.pageTitle = pageTitle;
+	public void setImageContentType(String imageContentType) {
+		this.imageContentType = imageContentType;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	@Override
 	public String toString() {
-		return "{\"info\":\"" + info + "\", \"title\":\"" + title + "\", \"description\":\"" + description + "\", \"pageTitle\":\""
-				+ pageTitle + "\", \"order\":" + order + "}";
+		return "{\"id\":\"" + id + "\",\"title\":\"" + title + "\", \"description\":\"" + description + "\", \"order\":" + order + "}";
 	}
+
 }

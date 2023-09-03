@@ -11,20 +11,21 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "docs_feature", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
+@Table(name = "docs_data", uniqueConstraints = { @UniqueConstraint(columnNames = { "name" }) })
 public class ResourcesData {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
 	private String description;
-	@Column(name = "pageid")
-	private int pageId;
 	@Column(name = "resourcedate")
 	private Date resourceDate;
 	private byte[] doc;
 	@Column(name = "orderdoc")
 	private int order;
+
+	@Column(name = "doc_content_type", nullable = false)
+	private String docContentType;
 
 	public int getId() {
 		return id;
@@ -50,14 +51,6 @@ public class ResourcesData {
 		this.description = description;
 	}
 
-	public int getPageId() {
-		return pageId;
-	}
-
-	public void setPageId(int pageId) {
-		this.pageId = pageId;
-	}
-
 	public byte[] getDoc() {
 		return doc;
 	}
@@ -80,6 +73,14 @@ public class ResourcesData {
 
 	public void setResourceDate(Date resourceDate) {
 		this.resourceDate = resourceDate;
+	}
+
+	public String getDocContentType() {
+		return docContentType;
+	}
+
+	public void setDocContentType(String docContentType) {
+		this.docContentType = docContentType;
 	}
 
 }

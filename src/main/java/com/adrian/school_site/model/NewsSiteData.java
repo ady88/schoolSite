@@ -1,30 +1,17 @@
 package com.adrian.school_site.model;
 
-import java.util.Date;
-
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
-
 import com.adrian.school_site.utils.Constants;
 
 public class NewsSiteData {
-	private Page info;
+	private String id;
 	private String title;
 	private String description;
-	@DateTimeFormat(iso = ISO.DATE)
-	private Date date = new Date();
 	private String image = Constants.TEMPLATE_IMAGE_DATA;
 	private String linkLabel;
 	private String linkUrl;
-	private String pageTitle;
+	private String imageContentType;
 
-	public Page getInfo() {
-		return info;
-	}
-
-	public void setInfo(Page info) {
-		this.info = info;
-	}
+	private int order;
 
 	public String getTitle() {
 		return title;
@@ -40,14 +27,6 @@ public class NewsSiteData {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public String getImage() {
@@ -74,11 +53,27 @@ public class NewsSiteData {
 		this.linkUrl = linkUrl;
 	}
 
-	public String getPageTitle() {
-		return pageTitle;
+	public int getOrder() {
+		return order;
 	}
 
-	public void setPageTitle(String pageTitle) {
-		this.pageTitle = pageTitle;
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	public String getImageContentType() {
+		return imageContentType;
+	}
+
+	public void setImageContentType(String imageContentType) {
+		this.imageContentType = imageContentType;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 }

@@ -5,21 +5,13 @@ import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class ResourcesSiteData {
-	private Page info;
 	private String name;
 	private String description;
-	@DateTimeFormat(pattern="yyyy-MM-dd")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date resourceDate;
 	private String doc;
 	private Integer order;
-
-	public Page getInfo() {
-		return info;
-	}
-
-	public void setInfo(Page info) {
-		this.info = info;
-	}
+	private String docContentType;
 
 	public String getName() {
 		return name;
@@ -61,4 +53,11 @@ public class ResourcesSiteData {
 		this.resourceDate = resourceDate;
 	}
 
+	public String getDocContentType() {
+		return docContentType;
+	}
+
+	public void setDocContentType(String docContentType) {
+		this.docContentType = docContentType;
+	}
 }

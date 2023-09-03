@@ -14,6 +14,7 @@ import com.adrian.school_site.model.ImagesSiteData;
 import com.adrian.school_site.model.NewsSiteData;
 import com.adrian.school_site.model.PageSiteData;
 import com.adrian.school_site.model.ResourcesSiteData;
+import com.adrian.school_site.model.ShortNewsSiteData;
 import com.adrian.school_site.model.SiteDataModel;
 import com.adrian.school_site.model.StaffSiteData;
 
@@ -44,6 +45,10 @@ public class SiteDataService {
 
 	public List<NewsSiteData> getAllNewsData() {
 		return cacheService.getAllNewsData();
+	}
+	
+	public List<ShortNewsSiteData> getAllShortNewsData() {
+		return cacheService.getAllShortNewsData();
 	}
 
 	public List<ResourcesSiteData> getAllResourcesData() {
@@ -85,15 +90,6 @@ public class SiteDataService {
 		}).findFirst();
 
 		return staffData.isPresent() ? staffData.get() : new StaffSiteData();
-	}
-
-	/**
-	 * Saves the form data from the admin page to the database.
-	 * 
-	 * @param model session data to be saved
-	 */
-	public void saveGeneralSiteData(SiteDataModel model) {
-		cacheService.saveGeneralSiteData(model);
 	}
 
 	/**

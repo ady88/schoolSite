@@ -8,18 +8,20 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "staff_table_feature")
+@Table(name = "staff_data")
 public class StaffData {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Column(name = "first_name")
 	private String firstname;
+	@Column(name = "last_name")
 	private String lastname;
-	@Column(name = "pageid")
-	private int pageId;
+	@Column(name = "unit_name")
 	private String unitname;
+	@Column(name = "job_type")
 	private String jobtype;
-	@Column(name = "orderstaff")
+	@Column(name = "order_staff")
 	private int order;
 
 	public int getId() {
@@ -44,14 +46,6 @@ public class StaffData {
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
-	}
-
-	public int getPageId() {
-		return pageId;
-	}
-
-	public void setPageId(int pageId) {
-		this.pageId = pageId;
 	}
 
 	public String getUnitname() {

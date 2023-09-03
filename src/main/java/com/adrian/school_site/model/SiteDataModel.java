@@ -16,6 +16,7 @@ public class SiteDataModel implements Serializable {
 	private GeneralSiteModel generalSiteModel;
 	private List<PageSiteData> pageSiteData = new ArrayList<>();
 	private List<NewsSiteData> newsSiteData = new ArrayList<>();
+	private List<ShortNewsSiteData> shortNewsSiteData = new ArrayList<>();
 	private List<ImagesSiteData> imagesSiteData = new ArrayList<>();
 	private List<ResourcesSiteData> resourcesSiteData = new ArrayList<>();
 	private List<StaffSiteData> staffSiteData = new ArrayList<>();
@@ -106,4 +107,13 @@ public class SiteDataModel implements Serializable {
 	public void setCurrentStaff(StaffSiteData currentStaff) {
 		this.currentStaff = currentStaff;
 	}
+
+	public List<ShortNewsSiteData> getShortNewsSiteData() {
+		return shortNewsSiteData;
+	}
+
+	public void setShortNewsSiteData(List<ShortNewsSiteData> shortNewsSiteData) {
+		this.shortNewsSiteData = shortNewsSiteData;
+	}
+
 }

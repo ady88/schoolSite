@@ -1,7 +1,5 @@
 package com.adrian.school_site.entity;
 
-import java.util.Date;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,22 +9,24 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "news_feature", uniqueConstraints = { @UniqueConstraint(columnNames = { "title" }) })
+@Table(name = "news_data", uniqueConstraints = { @UniqueConstraint(columnNames = { "title" }) })
 public class NewsData {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String title;
 	private String description;
-	@Column(name = "pageid")
-	private int pageId;
-	private Date date;
+	@Column(name = "link_label", nullable = false)
 	private String linklabel;
+	@Column(name = "link_url", nullable = false)
 	private String linkurl;
 	private byte[] image;
 
-	@Column(name = "pagetitle")
-	private String pageTitle;
+	@Column(name = "order_news", nullable = false)
+	private Integer order;
+
+	@Column(name = "image_content_type", nullable = false)
+	private String imageContentType;
 
 	public int getId() {
 		return id;
@@ -50,22 +50,6 @@ public class NewsData {
 
 	public void setDescription(String description) {
 		this.description = description;
-	}
-
-	public int getPageId() {
-		return pageId;
-	}
-
-	public void setPageId(int pageId) {
-		this.pageId = pageId;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
 	}
 
 	public String getLinklabel() {
@@ -92,11 +76,20 @@ public class NewsData {
 		this.image = image;
 	}
 
-	public String getPageTitle() {
-		return pageTitle;
+	public String getImageContentType() {
+		return imageContentType;
 	}
 
-	public void setPageTitle(String pageTitle) {
-		this.pageTitle = pageTitle;
+	public void setImageContentType(String imageContentType) {
+		this.imageContentType = imageContentType;
 	}
+
+	public Integer getOrder() {
+		return order;
+	}
+
+	public void setOrder(Integer order) {
+		this.order = order;
+	}
+
 }

@@ -24,7 +24,7 @@ $('document').ready(function() {
 		let jsonImageData = JSON.parse(imagesData);
 		let imgTitle = document.getElementById("imgDescriptionTitle");
 		let imgDescription = document.getElementById("imgDescription");
-		imgTitle.innerHTML = jsonImageData[0]['pageTitle'];
+		imgTitle.innerHTML = jsonImageData[0]['title'];
 		imgDescription.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + jsonImageData[0]['description'];
 	}
 	let currentIndex = 0;
@@ -48,7 +48,7 @@ $('document').ready(function() {
 			
 			
 			let index = currentIndex % jsonImageData.length;
-			document.getElementById("imgDescriptionTitle").innerHTML = jsonImageData[index]['pageTitle'];
+			document.getElementById("imgDescriptionTitle").innerHTML = jsonImageData[index]['title'];
 			document.getElementById("imgDescription").innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;' + jsonImageData[index]['description'];
 		}
 

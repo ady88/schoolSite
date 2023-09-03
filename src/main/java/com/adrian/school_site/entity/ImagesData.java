@@ -9,21 +9,19 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "images_feature", uniqueConstraints = { @UniqueConstraint(columnNames = { "title" }) })
+@Table(name = "main_news_data", uniqueConstraints = { @UniqueConstraint(columnNames = { "title" }) })
 public class ImagesData {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String title;
 	private String description;
-	@Column(name = "pageid")
-	private int pageId;
-	@Column(name = "orderimage")
+	@Column(name = "order_news")
 	private int order;
 	private byte[] image;
 
-	@Column(name = "pagetitle")
-	private String pageTitle;
+	@Column(name = "image_content_type", nullable = false)
+	private String imageContentType;
 
 	public int getId() {
 		return id;
@@ -49,14 +47,6 @@ public class ImagesData {
 		this.description = description;
 	}
 
-	public int getPageId() {
-		return pageId;
-	}
-
-	public void setPageId(int pageId) {
-		this.pageId = pageId;
-	}
-
 	public int getOrder() {
 		return order;
 	}
@@ -73,11 +63,11 @@ public class ImagesData {
 		this.image = image;
 	}
 
-	public String getPageTitle() {
-		return pageTitle;
+	public String getImageContentType() {
+		return imageContentType;
 	}
 
-	public void setPageTitle(String pageTitle) {
-		this.pageTitle = pageTitle;
+	public void setImageContentType(String imageContentType) {
+		this.imageContentType = imageContentType;
 	}
 }

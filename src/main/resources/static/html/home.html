@@ -18,7 +18,7 @@
 				<div class="carousel-inner">
 					<div th:each="image,iStat: ${siteModel.imagesSiteData}" class=" img-wrapper carousel-item"
 						th:classappend="${iStat.index == 0 ? 'active':''}" data-bs-interval="7000">
-						<img id="homeCurrentImage" th:src="@{'/image/' + ${image.title}}" class="d-block my-img-dimmensions">
+						<img id="homeCurrentImage" th:src="@{'/image/' + ${image.id}}" class="d-block my-img-dimmensions">
 					</div>
 				</div>
 				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
@@ -38,12 +38,12 @@
 								<div class="row g-0">
 
 									<div class="col-md-4">
-										<img th:src="@{'/newsImage/' + ${news.title}}" class="card-img-top" alt="...">
+										<img th:src="@{'/newsImage/' + ${news.id}}" class="card-img-top" alt="...">
 									</div>
 									<div class="col-md-8">
 										<div class="card-body">
 											<div class="card-header newsHeader">
-												<h5 th:text="${news.pageTitle}" class="card-title"></h5>
+												<h5 th:text="${news.title}" class="card-title"></h5>
 											</div>
 											<div class="card-body">
 												<p th:utext="'&nbsp;&nbsp;&nbsp;&nbsp;' + ${news.description}" class="card-text"></p>
@@ -59,7 +59,7 @@
 									<div class="col-md-8">
 										<div class="card-body">
 											<div class="card-header newsHeader">
-												<h5 th:text="${news.pageTitle}" class="card-title"></h5>
+												<h5 th:text="${news.title}" class="card-title"></h5>
 											</div>
 											<div class="card-body">
 												<p th:utext="'&nbsp;&nbsp;&nbsp;&nbsp;' + ${news.description}" class="card-text"></p>
@@ -68,7 +68,7 @@
 										</div>
 									</div>
 									<div class="col-md-4">
-										<img th:src="@{'/newsImage/' + ${news.title}}" class="card-img-top" alt="...">
+										<img th:src="@{'/newsImage/' + ${news.id}}" class="card-img-top" alt="...">
 									</div>
 								</div>
 							</div>

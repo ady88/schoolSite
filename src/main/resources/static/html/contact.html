@@ -9,7 +9,7 @@
 	<div th:replace="fragments/top :: top"></div>
 	<div class="wrapper-site">
 		<div class="container">
-			<h3>Contact</h3>
+			<h3 th:text="${siteModel.generalSiteModel.contactHeader}"></h3>
 			<ul class="list-group mb-4">
 				<li style="background-color: burlywood" class="list-group-item">
 					<span th:text="'Adresa: ' + ${siteModel.generalSiteModel.adress}"> </span>
@@ -22,16 +22,15 @@
 				</li>
 			</ul>
 
-			<h4>Structurile noastre sunt:</h4>
+			<h4 th:text="${siteModel.generalSiteModel.structuresHeader}"></h4>
 			<ul class="list-group mb-4">
-				<li class="list-group-item">ȘCOALA PRIMARĂ TELEȘTI NR. 1</li>
-				<li style="background-color: burlywood" class="list-group-item">ȘCOALA PRIMARĂ TELEȘTI NR. 2</li>
-				<li class="list-group-item">ȘCOALA PRIMARĂ ȘOMANEȘTI</li>
-				<li style="background-color: burlywood" class="list-group-item">ȘCOALA PRIMARĂ BUDUHALA</li>
+				<li class="list-group-item"><span th:text="${siteModel.generalSiteModel.structure1}"></span></li>
+				<li style="background-color: burlywood" class="list-group-item"><span th:text="${siteModel.generalSiteModel.structure2}"></span></li>
+				<li class="list-group-item"><span th:text="${siteModel.generalSiteModel.structure3}"></span></li>
+				<li style="background-color: burlywood" class="list-group-item"><span th:text="${siteModel.generalSiteModel.structure3}"></span></li>
 			</ul>
 
-			<iframe
-				src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2821.893277979658!2d23.09091455022315!3d44.98647907311186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47520b823be353bb%3A0xe3baa44f65e55e89!2sScoala%20Gimnaziala%20Nr%201%20Telesti%20Middle%20School!5e0!3m2!1sen!2sro!4v1669471289789!5m2!1sen!2sro"
+			<iframe th:src="${siteModel.generalSiteModel.mapUrl}"
 				width="900" height="450" style="border: 0;" allowfullscreen="" loading="lazy"
 				referrerpolicy="no-referrer-when-downgrade"></iframe>
 		</div>

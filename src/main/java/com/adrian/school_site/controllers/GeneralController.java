@@ -52,7 +52,6 @@ public class GeneralController {
 	@PostMapping(path = "admin/general")
 	public String postGeneralPage(@ModelAttribute SiteDataModel formSiteModel, Model model,
 			RedirectAttributes redirectAttributes) {
-		siteService.saveGeneralSiteData(formSiteModel);
 		model.addAttribute("siteModel", formSiteModel);
 		redirectAttributes.addFlashAttribute("message", "Datele au fost salvate cu success!");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");

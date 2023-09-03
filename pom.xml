@@ -13,7 +13,7 @@
 	<name>school_site</name>
 	<description>School site web application is a slightly customizable school website.</description>
 	<properties>
-		<java.version>18</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

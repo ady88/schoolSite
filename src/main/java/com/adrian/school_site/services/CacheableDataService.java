@@ -19,8 +19,8 @@ import org.springframework.util.ObjectUtils;
 import com.adrian.school_site.entity.GeneralData;
 import com.adrian.school_site.entity.ImagesData;
 import com.adrian.school_site.entity.NewsData;
-import com.adrian.school_site.entity.PageData;
 import com.adrian.school_site.entity.ResourcesData;
+import com.adrian.school_site.entity.ShortNewsData;
 import com.adrian.school_site.entity.StaffData;
 import com.adrian.school_site.model.CodeText;
 import com.adrian.school_site.model.GeneralSiteModel;
@@ -29,13 +29,14 @@ import com.adrian.school_site.model.NewsSiteData;
 import com.adrian.school_site.model.Page;
 import com.adrian.school_site.model.PageSiteData;
 import com.adrian.school_site.model.ResourcesSiteData;
+import com.adrian.school_site.model.ShortNewsSiteData;
 import com.adrian.school_site.model.SiteDataModel;
 import com.adrian.school_site.model.StaffSiteData;
 import com.adrian.school_site.repositories.GeneralSiteDataRepository;
 import com.adrian.school_site.repositories.ImagesDataRepository;
 import com.adrian.school_site.repositories.NewsDataRepository;
-import com.adrian.school_site.repositories.PageDataRepository;
 import com.adrian.school_site.repositories.ResourcesDataRepository;
+import com.adrian.school_site.repositories.ShortNewsSiteDataRepository;
 import com.adrian.school_site.repositories.StaffDataRepository;
 import com.adrian.school_site.utils.CacheUtils;
 import com.adrian.school_site.utils.Constants;
@@ -52,10 +53,10 @@ public class CacheableDataService {
 	private GeneralSiteDataRepository generalSiteDataRepository;
 
 	@Autowired
-	private PageDataRepository pageDataRepository;
+	private NewsDataRepository newsDataRepository;
 
 	@Autowired
-	private NewsDataRepository newsDataRepository;
+	private ShortNewsSiteDataRepository shortNewsDataRepository;
 
 	@Autowired
 	private ImagesDataRepository imagesDataRepository;
@@ -88,13 +89,24 @@ public class CacheableDataService {
 	 */
 	@Cacheable(cacheNames = { "pages" })
 	public List<PageSiteData> getAllPageData() {
-		Iterable<PageData> repositoryData = pageDataRepository.findAll();
+		GeneralData generalSiteData = generalSiteDataRepository.findById(1).orElse(new GeneralData());
 		List<PageSiteData> result = new ArrayList<>();
-		for (PageData page : repositoryData) {
-			Page pageEnum = Page.fromInt(page.getId()).get();
-			PageSiteData siteData = convertFromEntity(pageEnum, page);
-			result.add(siteData);
-		}
+		Page homePage = Page.fromInt(1).get();
+		PageSiteData homePageData = convertFromEntity(homePage, generalSiteData);
+		result.add(homePageData);
+
+		Page resourcesPage = Page.fromInt(2).get();
+		PageSiteData resourcesPageData = convertFromEntity(resourcesPage, generalSiteData);
+		result.add(resourcesPageData);
+
+		Page staffPage = Page.fromInt(3).get();
+		PageSiteData staffPageData = convertFromEntity(staffPage, generalSiteData);
+		result.add(staffPageData);
+
+		Page aboutPage = Page.fromInt(4).get();
+		PageSiteData aboutPageData = convertFromEntity(aboutPage, generalSiteData);
+		result.add(aboutPageData);
+
 		result.sort(Comparator.comparing(PageSiteData::getInfo));
 		return result;
 	}
@@ -107,7 +119,19 @@ public class CacheableDataService {
 			NewsSiteData siteData = convertFromEntity(page);
 			result.add(siteData);
 		}
-		result.sort(Comparator.comparing(NewsSiteData::getDate, Comparator.reverseOrder()));
+		result.sort(Comparator.comparing(NewsSiteData::getOrder, Comparator.reverseOrder()));
+		return result;
+	}
+
+	@Cacheable(cacheNames = { "shortNews" })
+	public List<ShortNewsSiteData> getAllShortNewsData() {
+		Iterable<ShortNewsData> repositoryData = shortNewsDataRepository.findAll();
+		List<ShortNewsSiteData> result = new ArrayList<>();
+		for (ShortNewsData page : repositoryData) {
+			ShortNewsSiteData siteData = convertFromEntity(page);
+			result.add(siteData);
+		}
+		result.sort(Comparator.comparing(ShortNewsSiteData::getOrder, Comparator.reverseOrder()));
 		return result;
 	}
 
@@ -152,48 +176,6 @@ public class CacheableDataService {
 	 * 
 	 * @param model session data to be saved
 	 */
-	public void saveGeneralSiteData(SiteDataModel model) {
-		// get existing data
-		final GeneralData result = generalSiteDataRepository.findById(1).orElse(new GeneralData());
-		GeneralSiteModel generalSiteModel = model.getGeneralSiteModel();
-		result.setAdress(generalSiteModel.getAdress());
-		result.setEmail(generalSiteModel.getEmail());
-		result.setMotto(generalSiteModel.getMotto());
-		result.setPhone(generalSiteModel.getPhone());
-		result.setSitename(generalSiteModel.getName());
-
-		generalSiteDataRepository.save(result);
-		cacheUtils.evictAllCacheValues("general");
-
-		final Iterable<PageData> pageResults = pageDataRepository.findAll();
-		for (PageData pageData : pageResults) {
-			switch (pageData.getId()) {
-			case 1:
-				setPageData(model, pageData, Page.MAIN);
-				break;
-			case 2:
-				setPageData(model, pageData, Page.SECONDARY);
-				break;
-			case 3:
-				setPageData(model, pageData, Page.THIRD);
-				break;
-			case 4:
-				setPageData(model, pageData, Page.FORTH);
-				break;
-			default:
-				LOG.severe("Unexpected page id.");
-
-			}
-			pageDataRepository.saveAll(pageResults);
-			cacheUtils.evictAllCacheValues("pages");
-		}
-	}
-
-	/**
-	 * Saves the form data from the admin page to the database.
-	 * 
-	 * @param model session data to be saved
-	 */
 	@Transactional
 	public CodeText saveNewsSiteData(SiteDataModel formSiteModel) {
 		NewsSiteData data = formSiteModel.getCurrentNews();
@@ -215,8 +197,7 @@ public class CacheableDataService {
 			}
 
 			newData.setTitle(data.getTitle());
-			newData.setPageTitle(data.getPageTitle());
-			newData.setDate(data.getDate());
+			newData.setOrder(data.getOrder());
 			newData.setLinklabel(data.getLinkLabel());
 			newData.setLinkurl(data.getLinkUrl());
 			newsDataRepository.save(newData);
@@ -465,8 +446,8 @@ public class CacheableDataService {
 		resource.setOrder(data.getOrder());
 		resource.setName(data.getName());
 		resource.setResourceDate(data.getResourceDate());
-		resource.setInfo(Page.fromInt(data.getPageId()).get());
 		resource.setDoc(Base64.getEncoder().encodeToString(data.getDoc()));
+		resource.setDocContentType(data.getDocContentType());
 
 		return resource;
 	}
@@ -477,9 +458,8 @@ public class CacheableDataService {
 		resourceDb.setOrder(data.getOrder());
 		resourceDb.setName(data.getName());
 		resourceDb.setResourceDate(data.getResourceDate());
-		resourceDb.setPageId(data.getInfo().getId());
 		resourceDb.setDoc(Base64.getDecoder().decode(data.getDoc()));
-
+		resourceDb.setDocContentType(data.getDocContentType());
 		return resourceDb;
 	}
 
@@ -490,7 +470,6 @@ public class CacheableDataService {
 		staff.setLastname(data.getLastname());
 		staff.setJobtype(data.getJobtype());
 		staff.setUnitname(data.getUnitname());
-		staff.setInfo(Page.fromInt(data.getPageId()).get());
 
 		return staff;
 	}
@@ -502,7 +481,6 @@ public class CacheableDataService {
 		staffDb.setLastname(data.getLastname());
 		staffDb.setJobtype(data.getJobtype());
 		staffDb.setUnitname(data.getUnitname());
-		staffDb.setPageId(data.getInfo().getId());
 		return staffDb;
 	}
 
@@ -511,9 +489,10 @@ public class CacheableDataService {
 		image.setDescription(data.getDescription());
 		image.setOrder(data.getOrder());
 		image.setTitle(data.getTitle());
-		image.setInfo(Page.fromInt(data.getPageId()).get());
 		image.setImage(Base64.getEncoder().encodeToString(data.getImage()));
-		image.setPageTitle(data.getPageTitle());
+		image.setImageContentType(data.getImageContentType());
+		image.setOrder(data.getOrder());
+		image.setId(Integer.toString(data.getId()));
 
 		return image;
 	}
@@ -523,36 +502,44 @@ public class CacheableDataService {
 		imagesDb.setDescription(data.getDescription());
 		imagesDb.setOrder(data.getOrder());
 		imagesDb.setTitle(data.getTitle());
-		imagesDb.setPageId(data.getInfo().getId());
 		imagesDb.setImage(Base64.getDecoder().decode(data.getImage()));
-		imagesDb.setPageTitle(data.getPageTitle());
-
+		imagesDb.setImageContentType(data.getImageContentType());
 		return imagesDb;
 	}
 
 	private NewsData convertFromEntity(NewsSiteData data) {
 		NewsData newsDb = new NewsData();
-		newsDb.setDate(data.getDate());
 		newsDb.setTitle(data.getTitle());
 		newsDb.setDescription(data.getDescription());
 		newsDb.setLinklabel(data.getLinkLabel());
 		newsDb.setLinkurl(data.getLinkUrl());
-		newsDb.setPageId(data.getInfo().getId());
 		newsDb.setImage(Base64.getDecoder().decode(data.getImage()));
-		newsDb.setPageTitle(data.getPageTitle());
+		newsDb.setOrder(data.getOrder());
+		newsDb.setImageContentType(data.getImageContentType());
 		return newsDb;
+	}
+
+	private ShortNewsSiteData convertFromEntity(ShortNewsData data) {
+		ShortNewsSiteData news = new ShortNewsSiteData();
+		news.setLinkLabel(data.getTitle());
+		news.setLinkUrl(data.getLinkUrl());
+		news.setOrder(data.getOrder());
+
+		return news;
 	}
 
 	private NewsSiteData convertFromEntity(NewsData data) {
 		NewsSiteData news = new NewsSiteData();
-		news.setDate(data.getDate());
 		news.setTitle(data.getTitle());
 		news.setDescription(data.getDescription());
 		news.setLinkLabel(data.getLinklabel());
 		news.setLinkUrl(data.getLinkurl());
-		news.setInfo(Page.fromInt(data.getPageId()).get());
-		news.setImage(Base64.getEncoder().encodeToString(data.getImage()));
-		news.setPageTitle(data.getPageTitle());
+		if (data.getImage() != null) {
+			news.setImage(Base64.getEncoder().encodeToString(data.getImage()));
+		}
+
+		news.setId(Integer.toString(data.getId()));
+
 		return news;
 	}
 
@@ -563,25 +550,44 @@ public class CacheableDataService {
 		result.setEmail(entity.getEmail());
 		result.setPhone(entity.getPhone());
 		result.setMotto(entity.getMotto());
+		result.setAboutPageName(entity.getAboutPageName());
+		result.setHomePageName(entity.getHomePageName());
+		result.setResourcePageName(entity.getResourcePageName());
+		result.setStaffPageName(entity.getStaffPageName());
+		result.setTheme(entity.getTheme());
+		result.setFacebookAddress(entity.getFacebookAddress());
+		result.setStructure1(entity.getStructure1());
+		result.setStructure2(entity.getStructure2());
+		result.setStructure3(entity.getStructure3());
+		result.setStructure4(entity.getStructure4());
+		result.setMapUrl(entity.getMapUrl());
+		result.setContactHeader(entity.getContactHeader());
+		result.setStructuresHeader(entity.getStructuresHeader());
 
 		return result;
 	}
 
-	private PageSiteData convertFromEntity(Page pageInfo, PageData entity) {
+	private PageSiteData convertFromEntity(Page pageInfo, GeneralData entity) {
 		PageSiteData result = new PageSiteData(pageInfo);
-		result.setFeature1(entity.getFeature1());
-		result.setFeature2(entity.getFeature2());
-		result.setName(entity.getName());
+		result.setInfo(pageInfo);
+		switch (pageInfo.getId()) {
+		case 1:
+			result.setName(entity.getHomePageName());
+			break;
+		case 2:
+			result.setName(entity.getResourcePageName());
+			break;
+		case 3:
+			result.setName(entity.getStaffPageName());
+			break;
+		case 4:
+			result.setName(entity.getAboutPageName());
+			break;
+		default:
+			LOG.severe("Unexpected page id.");
+
+		}
 		return result;
 	}
 
-	private void setPageData(SiteDataModel model, PageData pageData, Page pageInfo) {
-		pageData.setFeature1(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(pageInfo)).findFirst()
-				.get().getFeature1());
-		pageData.setFeature2(model.getPageSiteData().stream().filter(e -> e.getInfo().equals(pageInfo)).findFirst()
-				.get().getFeature2());
-		pageData.setName(
-				model.getPageSiteData().stream().filter(e -> e.getInfo().equals(pageInfo)).findFirst().get().getName());
-		pageData.setId(pageInfo.getId());
-	}
 }

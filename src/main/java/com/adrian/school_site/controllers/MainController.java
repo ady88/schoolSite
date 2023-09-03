@@ -2,7 +2,6 @@ package com.adrian.school_site.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.adrian.school_site.model.NewsSiteData;
+import com.adrian.school_site.model.ShortNewsSiteData;
 import com.adrian.school_site.model.SiteDataModel;
 import com.adrian.school_site.services.SiteDataService;
 
@@ -57,12 +57,14 @@ public class MainController {
 		if (CollectionUtils.isEmpty(siteModel.getNewsSiteData())) {
 			siteModel.setNewsSiteData(siteService.getAllNewsData());
 		}
+		
+		if (CollectionUtils.isEmpty(siteModel.getShortNewsSiteData())) {
+			siteModel.setShortNewsSiteData(siteService.getAllShortNewsData());
+		}
 
-		List<NewsSiteData> links = siteModel.getNewsSiteData().stream().filter(e -> e.getPageTitle().equals("LINKS"))
-				.collect(Collectors.toList());
+		List<ShortNewsSiteData> links = siteModel.getShortNewsSiteData();
 
-		List<NewsSiteData> mainNews = siteModel.getNewsSiteData().stream()
-				.filter(e -> !e.getPageTitle().equals("LINKS")).collect(Collectors.toList());
+		List<NewsSiteData> mainNews = siteModel.getNewsSiteData();
 
 		viewModel.addObject("siteModel", siteModel);
 		viewModel.addObject("links", links);

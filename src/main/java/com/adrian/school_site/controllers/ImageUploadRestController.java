@@ -29,7 +29,7 @@ public class ImageUploadRestController {
 	public @ResponseBody byte[] getImageAsByteArrayForHome(@PathVariable(name = "fileName") final String fileName)
 			throws IOException {
 		List<ImagesSiteData> images = siteModel.getImagesSiteData();
-		Optional<ImagesSiteData> wrappedImage = images.stream().filter(e -> e.getTitle().equals(fileName)).findFirst();
+		Optional<ImagesSiteData> wrappedImage = images.stream().filter(e -> e.getId().equals(fileName)).findFirst();
 		String currentImage = wrappedImage.isPresent() ? wrappedImage.get().getImage() : Constants.TEMPLATE_IMAGE_DATA;
 
 		if (wrappedImage.isEmpty() || StringUtils.isEmpty(wrappedImage.get().getImage())) {
@@ -66,7 +66,7 @@ public class ImageUploadRestController {
 	public @ResponseBody byte[] getNewsImageAsByteArrayForHome(@PathVariable(name = "fileName") final String fileName)
 			throws IOException {
 		List<NewsSiteData> images = siteModel.getNewsSiteData();
-		Optional<NewsSiteData> wrappedImage = images.stream().filter(e -> e.getTitle().equals(fileName)).findFirst();
+		Optional<NewsSiteData> wrappedImage = images.stream().filter(e -> e.getId().equals(fileName)).findFirst();
 		String currentImage = wrappedImage.isPresent() ? wrappedImage.get().getImage() : Constants.TEMPLATE_IMAGE_DATA;
 
 		if (wrappedImage.isEmpty() || StringUtils.isEmpty(wrappedImage.get().getImage())) {
