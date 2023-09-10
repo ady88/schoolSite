@@ -19,6 +19,7 @@ import org.springframework.util.ObjectUtils;
 import com.adrian.school_site.entity.GeneralData;
 import com.adrian.school_site.entity.ImagesData;
 import com.adrian.school_site.entity.NewsData;
+import com.adrian.school_site.entity.OtherData;
 import com.adrian.school_site.entity.ResourcesData;
 import com.adrian.school_site.entity.ShortNewsData;
 import com.adrian.school_site.entity.StaffData;
@@ -26,6 +27,7 @@ import com.adrian.school_site.model.CodeText;
 import com.adrian.school_site.model.GeneralSiteModel;
 import com.adrian.school_site.model.ImagesSiteData;
 import com.adrian.school_site.model.NewsSiteData;
+import com.adrian.school_site.model.OtherSiteData;
 import com.adrian.school_site.model.Page;
 import com.adrian.school_site.model.PageSiteData;
 import com.adrian.school_site.model.ResourcesSiteData;
@@ -35,6 +37,7 @@ import com.adrian.school_site.model.StaffSiteData;
 import com.adrian.school_site.repositories.GeneralSiteDataRepository;
 import com.adrian.school_site.repositories.ImagesDataRepository;
 import com.adrian.school_site.repositories.NewsDataRepository;
+import com.adrian.school_site.repositories.OtherDataRepository;
 import com.adrian.school_site.repositories.ResourcesDataRepository;
 import com.adrian.school_site.repositories.ShortNewsSiteDataRepository;
 import com.adrian.school_site.repositories.StaffDataRepository;
@@ -51,6 +54,9 @@ public class CacheableDataService {
 
 	@Autowired
 	private GeneralSiteDataRepository generalSiteDataRepository;
+	
+	@Autowired
+	private OtherDataRepository otherSiteDataRepository;
 
 	@Autowired
 	private NewsDataRepository newsDataRepository;
@@ -77,8 +83,28 @@ public class CacheableDataService {
 	 */
 	@Cacheable(cacheNames = { "general" })
 	public GeneralSiteModel getGeneralSiteData() {
-		final GeneralData result = generalSiteDataRepository.findById(1).orElse(new GeneralData());
+		final GeneralData result = generalSiteDataRepository.findAll().iterator().next();
 
+		return convertFromEntity(result);
+	}
+	
+	/**
+	 * Gets the other data of the site.
+	 * 
+	 * @return general view data
+	 */
+	@Cacheable(cacheNames = { "other" })
+	public OtherSiteData getOtherSiteData() {
+		final OtherData result = otherSiteDataRepository.findAll().iterator().next();
+		
+		if (result.getUseMainImage() == null) {
+			result.setUseMainImage(false);
+		}
+		
+		if (result.getUseTopImage() == null) {
+			result.setUseTopImage(false);
+		}
+		
 		return convertFromEntity(result);
 	}
 
@@ -89,7 +115,7 @@ public class CacheableDataService {
 	 */
 	@Cacheable(cacheNames = { "pages" })
 	public List<PageSiteData> getAllPageData() {
-		GeneralData generalSiteData = generalSiteDataRepository.findById(1).orElse(new GeneralData());
+		GeneralData generalSiteData = generalSiteDataRepository.findAll().iterator().next();
 		List<PageSiteData> result = new ArrayList<>();
 		Page homePage = Page.fromInt(1).get();
 		PageSiteData homePageData = convertFromEntity(homePage, generalSiteData);
@@ -322,6 +348,13 @@ public class CacheableDataService {
 	}
 
 	/**
+	 * Update all cache entries
+	 */
+	public void evictAllCacheEntries() {
+		cacheUtils.evictAllCacheValues();
+	}
+	
+	/**
 	 * Deletes the images data by the given title information.
 	 * 
 	 * @param title
@@ -543,6 +576,28 @@ public class CacheableDataService {
 		return news;
 	}
 
+	private OtherSiteData convertFromEntity(OtherData data) {
+		OtherSiteData other = new OtherSiteData();
+		
+		if (data.getMainImage() != null) {
+			other.setMainImage(Base64.getEncoder().encodeToString(data.getMainImage()));
+		}
+		
+		if (data.getTopImage() != null) {
+			other.setTopImage(Base64.getEncoder().encodeToString(data.getTopImage()));
+		}
+		
+		other.setMainImageContentType(data.getMainImageContentType());
+		other.setTopImageContentType(data.getTopImageContentType());
+		other.setTheme(data.getTheme());
+		other.setUseMainImage(data.getUseMainImage());
+		other.setUseTopImage(data.getUseTopImage());
+
+		other.setId(data.getId());
+
+		return other;
+	}
+	
 	private GeneralSiteModel convertFromEntity(GeneralData entity) {
 		GeneralSiteModel result = new GeneralSiteModel();
 		result.setAdress(entity.getAdress());
@@ -554,7 +609,6 @@ public class CacheableDataService {
 		result.setHomePageName(entity.getHomePageName());
 		result.setResourcePageName(entity.getResourcePageName());
 		result.setStaffPageName(entity.getStaffPageName());
-		result.setTheme(entity.getTheme());
 		result.setFacebookAddress(entity.getFacebookAddress());
 		result.setStructure1(entity.getStructure1());
 		result.setStructure2(entity.getStructure2());

@@ -7,6 +7,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.adrian.school_site.model.NewsSiteData;
@@ -39,11 +40,25 @@ public class MainController {
 	 * @return the {@link ModelAndView} object for the home page
 	 */
 	@GetMapping(path = { "/" })
-	public ModelAndView getMainPage() {
+	public ModelAndView getMainPage(@RequestParam(value = "refresh", defaultValue = "false") final boolean refresh) {
 		final ModelAndView viewModel = new ModelAndView("home");
 
+		if (refresh == true) {
+			siteService.clearCache();
+			siteModel.setGeneralSiteModel(null);
+			siteModel.setOtherSiteData(null);
+			siteModel.setPageSiteData(null);
+			siteModel.setImagesSiteData(null);
+			siteModel.setNewsSiteData(null);
+			siteModel.setShortNewsSiteData(null);
+		}
+		
 		if (siteModel.getGeneralSiteModel() == null) {
 			siteModel.setGeneralSiteModel(siteService.getGeneralSiteData());
+		}
+
+		if (siteModel.getOtherSiteData() == null) {
+			siteModel.setOtherSiteData(siteService.getOtherSiteData());
 		}
 
 		if (CollectionUtils.isEmpty(siteModel.getPageSiteData())) {
@@ -57,11 +72,11 @@ public class MainController {
 		if (CollectionUtils.isEmpty(siteModel.getNewsSiteData())) {
 			siteModel.setNewsSiteData(siteService.getAllNewsData());
 		}
-		
+
 		if (CollectionUtils.isEmpty(siteModel.getShortNewsSiteData())) {
 			siteModel.setShortNewsSiteData(siteService.getAllShortNewsData());
 		}
-
+		
 		List<ShortNewsSiteData> links = siteModel.getShortNewsSiteData();
 
 		List<NewsSiteData> mainNews = siteModel.getNewsSiteData();
@@ -85,6 +100,10 @@ public class MainController {
 
 		if (siteModel.getGeneralSiteModel() == null) {
 			siteModel.setGeneralSiteModel(siteService.getGeneralSiteData());
+		}
+		
+		if (siteModel.getOtherSiteData() == null) {
+			siteModel.setOtherSiteData(siteService.getOtherSiteData());
 		}
 
 		if (CollectionUtils.isEmpty(siteModel.getResourcesSiteData())) {
@@ -113,6 +132,10 @@ public class MainController {
 		if (siteModel.getGeneralSiteModel() == null) {
 			siteModel.setGeneralSiteModel(siteService.getGeneralSiteData());
 		}
+		
+		if (siteModel.getOtherSiteData() == null) {
+			siteModel.setOtherSiteData(siteService.getOtherSiteData());
+		}
 
 		if (CollectionUtils.isEmpty(siteModel.getPageSiteData())) {
 			siteModel.setPageSiteData(siteService.getAllPageData());
@@ -139,6 +162,10 @@ public class MainController {
 
 		if (siteModel.getGeneralSiteModel() == null) {
 			siteModel.setGeneralSiteModel(siteService.getGeneralSiteData());
+		}
+		
+		if (siteModel.getOtherSiteData() == null) {
+			siteModel.setOtherSiteData(siteService.getOtherSiteData());
 		}
 
 		if (siteModel.getGeneralSiteModel() == null) {

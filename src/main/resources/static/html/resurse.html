@@ -7,9 +7,9 @@
 	<script type="text/javascript" th:src="@{/js/common.js}"></script>
 
 	<div th:replace="fragments/top :: top"></div>
-	<div class="wrapper-site">
+	<div class="wrapper-site" th:classappend="${siteModel.otherSiteData.useMainImage ? 'mainImage': 'mainImage'+siteModel.otherSiteData.theme}">
 		<div class="container">
-			<table class="table table-site">
+			<table class="table table-site" th:classappend="${true == true ? 'table'+siteModel.otherSiteData.theme:'table'+siteModel.otherSiteData.theme}">
 				<thead>
 					<tr>
 						<th scope="col">Nume</th>
@@ -20,7 +20,7 @@
 				<tbody>
 					<tr th:each="resources,iStat: ${siteModel.resourcesSiteData}" th:classappend="${iStat.index} % 2 == 1 ? 'newsCard'">
 						<td>
-							<a th:text="${resources.name}" th:href="@{/download/{id}(id=${resources.name})}"></a>
+							<a class="linktest" th:text="${resources.name}" th:href="@{/download/{id}(id=${resources.name})}"></a>
 						</td>
 						<td>
 							<span th:text="${resources.description}"></span>
@@ -33,5 +33,6 @@
 			</table>
 		</div>
 	</div>
+	<script type="text/javascript" th:src="@{/js/home.js}"></script>
 </body>
 </html>

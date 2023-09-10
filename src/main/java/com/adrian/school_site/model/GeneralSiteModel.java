@@ -19,8 +19,6 @@ public class GeneralSiteModel {
 
 	private String facebookAddress;
 
-	private String theme;
-
 	private String structure1;
 
 	private String structure2;
@@ -113,14 +111,6 @@ public class GeneralSiteModel {
 
 	public void setFacebookAddress(String facebookAddress) {
 		this.facebookAddress = facebookAddress;
-	}
-
-	public String getTheme() {
-		return theme;
-	}
-
-	public void setTheme(String theme) {
-		this.theme = theme;
 	}
 
 	public String getStructure1() {

@@ -6,9 +6,9 @@
 	<th:block th:replace="fragments/footer :: footer"></th:block>
 	<script type="text/javascript" th:src="@{/js/common.js}"></script>
 	<div th:replace="fragments/top :: top"></div>
-	<div class="wrapper-site">
+	<div class="wrapper-site" th:classappend="${siteModel.otherSiteData.useMainImage ? 'mainImage': 'mainImage'+siteModel.otherSiteData.theme}">
 		<div class="container my-image-container">
-			<div id="img-description-area">
+			<div id="img-description-area" th:classappend="${true == true ? 'imgDescription'+siteModel.otherSiteData.theme:'imgDescription'+siteModel.otherSiteData.theme}">
 				<h3 id="imgDescriptionTitle" class="img-text pt-4" style="text-align: center"></h3>
 				<hr style="margin-top: -1em;" />
 				<p id="imgDescription" class="img-text"></p>
@@ -17,7 +17,7 @@
 				data-th-images="${siteModel.imagesSiteData}">
 				<div class="carousel-inner">
 					<div th:each="image,iStat: ${siteModel.imagesSiteData}" class=" img-wrapper carousel-item"
-						th:classappend="${iStat.index == 0 ? 'active':''}" data-bs-interval="7000">
+						th:classappend="${iStat.index == 0 ? 'active imgDescription' + siteModel.otherSiteData.theme :'imgDescription'+ siteModel.otherSiteData.theme}" data-bs-interval="7000">
 						<img id="homeCurrentImage" th:src="@{'/image/' + ${image.id}}" class="d-block my-img-dimmensions">
 					</div>
 				</div>
@@ -32,9 +32,9 @@
 		<div class="container">
 			<div class="row">
 				<div class="pt-4 row col-sm-9" style="margin-left: 0em;">
-					<div class="mainNewsBody">
+					<div class="mainNewsBody" th:classappend="${true == true ? 'main'+siteModel.otherSiteData.theme:'main'+siteModel.otherSiteData.theme}">
 						<div th:each="news,iStat: ${mainNews}" class="news-row">
-							<div th:if="${iStat.odd}" class="card mainNewsCard p-4">
+							<div th:if="${iStat.odd}" class="card mainNewsCard p-4" th:classappend="${true == true ? 'mainNews'+siteModel.otherSiteData.theme:'mainNews'+siteModel.otherSiteData.theme}">
 								<div class="row g-0">
 
 									<div class="col-md-4">
@@ -42,28 +42,28 @@
 									</div>
 									<div class="col-md-8">
 										<div class="card-body">
-											<div class="card-header newsHeader">
+											<div class="card-header newsHeader" th:classappend="${true == true ? 'news'+siteModel.otherSiteData.theme:'news'+siteModel.otherSiteData.theme}">
 												<h5 th:text="${news.title}" class="card-title"></h5>
 											</div>
 											<div class="card-body">
 												<p th:utext="'&nbsp;&nbsp;&nbsp;&nbsp;' + ${news.description}" class="card-text"></p>
-												<a th:text="${news.linkLabel}" th:href="${news.linkUrl}" class="card-link"></a>
+												<a th:text="${news.linkLabel}" th:href="${news.linkUrl}" th:classappend="${true == true ? 'card'+siteModel.otherSiteData.theme:'card'+siteModel.otherSiteData.theme}"></a>
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
 
-							<div th:if="${iStat.even}" class="card mainNewsCard p-4">
+							<div th:if="${iStat.even}" class="card mainNewsCard p-4" th:classappend="${true == true ? 'mainNews'+siteModel.otherSiteData.theme:'mainNews'+siteModel.otherSiteData.theme}">
 								<div class="row g-0">
 									<div class="col-md-8">
 										<div class="card-body">
-											<div class="card-header newsHeader">
+											<div class="card-header newsHeader" th:classappend="${true == true ? 'news'+siteModel.otherSiteData.theme:'news'+siteModel.otherSiteData.theme}">
 												<h5 th:text="${news.title}" class="card-title"></h5>
 											</div>
 											<div class="card-body">
 												<p th:utext="'&nbsp;&nbsp;&nbsp;&nbsp;' + ${news.description}" class="card-text"></p>
-												<a th:text="${news.linkLabel}" th:href="${news.linkUrl}" class="card-link"></a>
+												<a th:text="${news.linkLabel}" th:href="${news.linkUrl}" th:classappend="${true == true ? 'card'+siteModel.otherSiteData.theme:'card'+siteModel.otherSiteData.theme}"></a>
 											</div>
 										</div>
 									</div>
@@ -77,12 +77,12 @@
 				</div>
 				<div class="pt-4 row col-sm-3">
 					<div class="col-sm-12 news-row" style="margin-left: 0.8em;">
-						<div class="card linkNewsCard">
-							<div class="card-header newsHeader">
+						<div class="card linkNewsCard" th:classappend="${true == true ? 'linkNews'+siteModel.otherSiteData.theme:'linkNews'+siteModel.otherSiteData.theme}">
+							<div class="card-header newsHeader" th:classappend="${true == true ? 'news'+siteModel.otherSiteData.theme:'news'+siteModel.otherSiteData.theme}">
 								<h5 class="card-title">Link-uri utile</h5>
 							</div>
 							<div th:each="news,iStat: ${links}" class="links-main">
-								<div class="utilLinks" th:id="'linkId' + ${iStat.index}" data-th-linkUrl="${news.linkUrl}">
+								<div class="utilLinks" th:classappend="${true == true ? 'utilLink'+siteModel.otherSiteData.theme:'utilLink'+siteModel.otherSiteData.theme}" th:id="'linkId' + ${iStat.index}" data-th-linkUrl="${news.linkUrl}">
 									<p th:utext="${news.linkLabel}"    class="card-text"></p>
 								</div>
 							</div>

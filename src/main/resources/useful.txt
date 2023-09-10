@@ -51,4 +51,66 @@ heroku ps:scale web=0
  
  - add caching
  
+.wrapper-site-top {
+	background-image: url("/imgs/back02.png");
+	min-height: 150px;
+}
+
+-------------------------------------------------------------------
+
+INSERT INTO public."general"
+(id, site_name, home_page_name, resources_page_name, staff_page_name, about_page_name, facebook_address, address, phone, email, motto, theme, structure_1, structure_2, structure_3, structure_4, contact_header, structures_header, map_url)
+VALUES(1, 'Școala Gimnazială Nr. 1 Telești', 'Prima Pagină', 'Resurse Educaționale Deschise', 'Personal', 'Contact', 'https://www.facebook.com/scoalagenerala.telesti', 'Sat Telești, Comuna Telești', '0253 276 452', 'scoalatelesti@yahoo.com', '''MOTTO: "Nu e destul să știi, trebuie să și aplici, nu e destul să vrei trebuie să și faci."''', 'BLUE', 'ȘCOALA PRIMARĂ TELEȘTI NR. 1', 'ȘCOALA PRIMARĂ TELEȘTI NR. 2', 'ȘCOALA PRIMARĂ ȘOMANEȘTI', 'ȘCOALA PRIMARĂ BUDUHALA', 'Contact', 'Structurile noastre sunt:', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2821.893277979658!2d23.09091455022315!3d44.98647907311186!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47520b823be353bb%3A0xe3baa44f65e55e89!2sScoala%20Gimnaziala%20Nr%201%20Telesti%20Middle%20School!5e0!3m2!1sen!2sro!4v1669471289789!5m2!1sen!2sro');
+ 
+INSERT INTO public.main_news_data
+(title, description, order_news)
+VALUES('BIBLIOTECA', 'Așa arată la Telești, biblioteca școlii ce conține 6430 de volume și un ambient propice întâlnirii cu lectura, funcționează cu un program permisiv, astfel încât cei mici și cei mari să aibă acces la cartea dorită.', 2);
+INSERT INTO public.main_news_data
+(title, description, order_news)
+VALUES('MUZEU ÎN ȘCOALA MEA', 'Odată ce ai pășit în bibliotecă ai impresia că ai intrat într-un alt spațiu, cel al satului românesc tradițional. Aici sunt adunate toate obiectele folosite odinioară în gospodăriile de pe raza comunei Telești. Obiecte sculptate în lemn folosite în bucătărie, străchini, solnițe, linguri, măsuțe, obiectele pe care femeile le foloseau la țesut, de la torsul lânii, scărmănatul ei până la împletit, ceramica, costumele populare, își găsesc locul în acest muzeu.', 3);
+-----------------
+
+INSERT INTO public.news_data
+(title, description, link_label, link_url, order_news)
+VALUES('Activități școlare și extrașcolare', 'Acțiunile educative vin în întâmpinarea diferitelor interese ale elevilor, care sunt implicați direct în proiectarea, organizarea și desfășurarea activităților.', 'Daruri pentru școala noastră', 'https://www.facebook.com/photo?fbid=521529591363636&set=pcb.521531678030094', 4);
+INSERT INTO public.news_data
+(title, description, link_label, link_url, order_news)
+VALUES('Școala Gimnazială Telești', 'Școala a fost reabilitată, oferind elevilor şi profesorilor cele mai bune condiţii de învăţare,fiind amplasată în satul Telești, la 16 Km de Târgu-Jiu.  Activitatea educaţională se desfăşoară în 6 săli de clasă dotate cu mobilier şcolar modern şi adecvat specificului de vârstă al copiilor.', NULL, NULL, 2);
+
+----------------
+
+INSERT INTO public.short_news_data
+(id, title, link_url, order_news)
+VALUES(1, 'Programele pentru evaluarea națională', 'https://www.edupedu.ro/oficial-programele-pentru-evaluarea-nationala-la-clasa-a-viii-a-2023-au-fost-publicate-de-ministerul-educatiei///', 4);
+INSERT INTO public.short_news_data
+(id, title, link_url, order_news)
+VALUES(1101, 'Admiterea în liceu și în învățâmântul profesional', 'https://www.edu.ro/admitere-liceu-si-inv-profesional', 6);
+--------------------------
+
+INSERT INTO public.staff_data
+(id, order_staff, last_name, first_name, job_type, unit_name)
+VALUES(1, 3, 'POPESCU', 'ANGELA', 'EDUCATOARE', 'GRĂDINIȚA BUDUHALA');
+INSERT INTO public.staff_data
+(id, order_staff, last_name, first_name, job_type, unit_name)
+VALUES(1001, 4, 'IORGOVAN', 'SINELA', 'EDUCATOARE', 'GRĂDINIȚA TELEȘTI NR.2');
+
+------------------------
+
+INSERT INTO public.docs_data
+("name", description, orderdoc, resourcedate)
+VALUES('ISTORIE8-2016', 'Auxiliar didactic istorie clasa a VIII-a', 5, '2016-05-08 08:52:00.000');
+INSERT INTO public.docs_data
+("name", description, orderdoc, resourcedate)
+VALUES('PROIECT-DIDACTIC-1-2019', 'Proiect didactic 1', 3, '2019-11-13 09:54:00.000');
+
+th:style="${#bools.isTrue(siteModel.otherSiteData.useTopImage) ? background-image: url('/image/background/top')}"
+
+	
+BLUE      GREEN   |  RED    |
+#6fcdf2 | #6ff2cd | #cd6ff2 
+#1097cd | #10cd97 | #9710cd
+#e1eff5 | #e1f5ef | #f5e1ef
+#0b5875 | #0b7558 | #750b58
+#cceffc | #ccfcef | #fcccef
+
 

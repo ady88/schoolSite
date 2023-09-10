@@ -12,6 +12,7 @@ import com.adrian.school_site.model.CodeText;
 import com.adrian.school_site.model.GeneralSiteModel;
 import com.adrian.school_site.model.ImagesSiteData;
 import com.adrian.school_site.model.NewsSiteData;
+import com.adrian.school_site.model.OtherSiteData;
 import com.adrian.school_site.model.PageSiteData;
 import com.adrian.school_site.model.ResourcesSiteData;
 import com.adrian.school_site.model.ShortNewsSiteData;
@@ -33,7 +34,17 @@ public class SiteDataService {
 
 		return cacheService.getGeneralSiteData();
 	}
-	
+
+	/**
+	 * Gets the other data of the site.
+	 * 
+	 * @return other view data
+	 */
+	public OtherSiteData getOtherSiteData() {
+
+		return cacheService.getOtherSiteData();
+	}
+
 	/**
 	 * Gets the page related data of the site.
 	 * 
@@ -46,7 +57,7 @@ public class SiteDataService {
 	public List<NewsSiteData> getAllNewsData() {
 		return cacheService.getAllNewsData();
 	}
-	
+
 	public List<ShortNewsSiteData> getAllShortNewsData() {
 		return cacheService.getAllShortNewsData();
 	}
@@ -65,21 +76,22 @@ public class SiteDataService {
 	}
 
 	public NewsSiteData getNewsDataByTitle(final String title) {
-		Optional<NewsSiteData> newsData = cacheService.getAllNewsData().stream().filter(e -> e.getTitle().equals(title)).findFirst();
+		Optional<NewsSiteData> newsData = cacheService.getAllNewsData().stream().filter(e -> e.getTitle().equals(title))
+				.findFirst();
 
 		return newsData.isPresent() ? newsData.get() : new NewsSiteData();
 	}
 
 	public ImagesSiteData getImagesDataByTitle(final String title) {
-		Optional<ImagesSiteData> imagesData = cacheService.getAllImagesData().stream().filter(e -> e.getTitle().equals(title))
-				.findFirst();
+		Optional<ImagesSiteData> imagesData = cacheService.getAllImagesData().stream()
+				.filter(e -> e.getTitle().equals(title)).findFirst();
 
 		return imagesData.isPresent() ? imagesData.get() : new ImagesSiteData();
 	}
 
 	public ResourcesSiteData getResourcesByTitle(final String name) {
-		Optional<ResourcesSiteData> resourcesData = cacheService.getAllResourcesData().stream().filter(e -> e.getName().equals(name))
-				.findFirst();
+		Optional<ResourcesSiteData> resourcesData = cacheService.getAllResourcesData().stream()
+				.filter(e -> e.getName().equals(name)).findFirst();
 
 		return resourcesData.isPresent() ? resourcesData.get() : new ResourcesSiteData();
 	}
@@ -182,5 +194,9 @@ public class SiteDataService {
 	public CodeText deleteNewsSiteData(final String title) {
 
 		return cacheService.deleteNewsSiteData(title);
+	}
+	
+	public void clearCache() {
+		cacheService.evictAllCacheEntries();
 	}
 }

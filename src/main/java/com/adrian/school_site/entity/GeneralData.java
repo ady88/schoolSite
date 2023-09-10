@@ -31,9 +31,6 @@ public class GeneralData {
 	@Column(name = "facebook_address")
 	private String facebookAddress;
 
-	@Column(name = "theme")
-	private String theme;
-
 	@Column(name = "structure_1")
 	private String structure1;
 
@@ -149,14 +146,6 @@ public class GeneralData {
 
 	public void setFacebookAddress(String facebookAddress) {
 		this.facebookAddress = facebookAddress;
-	}
-
-	public String getTheme() {
-		return theme;
-	}
-
-	public void setTheme(String theme) {
-		this.theme = theme;
 	}
 
 	public String getStructure1() {

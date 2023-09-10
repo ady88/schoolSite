@@ -7,17 +7,17 @@
 	<script type="text/javascript" th:src="@{/js/common.js}"></script>
 
 	<div th:replace="fragments/top :: top"></div>
-	<div class="wrapper-site">
+	<div class="wrapper-site" th:classappend="${siteModel.otherSiteData.useMainImage ? 'mainImage': 'mainImage'+siteModel.otherSiteData.theme}">
 		<div class="container">
 			<h3 th:text="${siteModel.generalSiteModel.contactHeader}"></h3>
 			<ul class="list-group mb-4">
-				<li style="background-color: burlywood" class="list-group-item">
+				<li th:classappend="${true == true ? 'newsCard'+siteModel.otherSiteData.theme:'newsCard'+siteModel.otherSiteData.theme}" class="list-group-item">
 					<span th:text="'Adresa: ' + ${siteModel.generalSiteModel.adress}"> </span>
 				</li>
-				<li style="background-color: burlywood" class="list-group-item">
+				<li th:classappend="${true == true ? 'newsCard'+siteModel.otherSiteData.theme:'newsCard'+siteModel.otherSiteData.theme}" class="list-group-item">
 					<span th:text="'Telefon/Fax: ' + ${siteModel.generalSiteModel.phone}"> </span>
 				</li>
-				<li style="background-color: burlywood" class="list-group-item">
+				<li th:classappend="${true == true ? 'newsCard'+siteModel.otherSiteData.theme:'newsCard'+siteModel.otherSiteData.theme}" class="list-group-item">
 					<span th:text="'Email: ' + ${siteModel.generalSiteModel.email}"> </span>
 				</li>
 			</ul>
@@ -25,9 +25,9 @@
 			<h4 th:text="${siteModel.generalSiteModel.structuresHeader}"></h4>
 			<ul class="list-group mb-4">
 				<li class="list-group-item"><span th:text="${siteModel.generalSiteModel.structure1}"></span></li>
-				<li style="background-color: burlywood" class="list-group-item"><span th:text="${siteModel.generalSiteModel.structure2}"></span></li>
+				<li th:classappend="${true == true ? 'newsCard'+siteModel.otherSiteData.theme:'newsCard'+siteModel.otherSiteData.theme}" class="list-group-item"><span th:text="${siteModel.generalSiteModel.structure2}"></span></li>
 				<li class="list-group-item"><span th:text="${siteModel.generalSiteModel.structure3}"></span></li>
-				<li style="background-color: burlywood" class="list-group-item"><span th:text="${siteModel.generalSiteModel.structure3}"></span></li>
+				<li th:classappend="${true == true ? 'newsCard'+siteModel.otherSiteData.theme:'newsCard'+siteModel.otherSiteData.theme}" class="list-group-item"><span th:text="${siteModel.generalSiteModel.structure3}"></span></li>
 			</ul>
 
 			<iframe th:src="${siteModel.generalSiteModel.mapUrl}"
@@ -35,5 +35,6 @@
 				referrerpolicy="no-referrer-when-downgrade"></iframe>
 		</div>
 	</div>
+	<script type="text/javascript" th:src="@{/js/home.js}"></script>
 </body>
 </html>

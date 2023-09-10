@@ -20,5 +20,17 @@ public class CacheUtils {
 	 */
 	public void evictAllCacheValues(String cacheName) {
 		cacheManager.getCache(cacheName).clear();
+		
+	}
+	
+	/**
+	 * Evicts all values of all caches
+	 * 
+	 * @param cacheName
+	 */
+	public void evictAllCacheValues() {
+		for (String cacheName: cacheManager.getCacheNames()) {
+			cacheManager.getCache(cacheName).clear();
+		}
 	}
 }

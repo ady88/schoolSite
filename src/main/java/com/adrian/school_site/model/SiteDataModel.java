@@ -14,6 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 public class SiteDataModel implements Serializable {
 	private static final long serialVersionUID = 929114650404323009L;
 	private GeneralSiteModel generalSiteModel;
+	private OtherSiteData otherSiteData;
 	private List<PageSiteData> pageSiteData = new ArrayList<>();
 	private List<NewsSiteData> newsSiteData = new ArrayList<>();
 	private List<ShortNewsSiteData> shortNewsSiteData = new ArrayList<>();
@@ -116,4 +117,11 @@ public class SiteDataModel implements Serializable {
 		this.shortNewsSiteData = shortNewsSiteData;
 	}
 
+	public OtherSiteData getOtherSiteData() {
+		return otherSiteData;
+	}
+
+	public void setOtherSiteData(OtherSiteData otherSiteData) {
+		this.otherSiteData = otherSiteData;
+	}
 }
